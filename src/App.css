@@ -1,0 +1,42 @@
+*, p, h1, h2, h3, h4, h5, h6, body {
+  font-family: 'Changa', sans-serif;
+}
+
+.logo {
+  height: 43px;
+  width: 49px !important;
+}
+
+.header-name {
+  color: #03895e;
+}
+
+.menu-item {
+  color: #03895e !important;
+}
+
+.menu-title {
+  text-align: center;
+  font-family: 'Changa', sans-serif;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.details-title {
+  font-weight: 600;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.addressText {
+  height: 17PX;
+  overflow: hidden;
+}
+
+.logo-bottom  {
+  height: 141px;
+  width: 160px !important;
+  margin-left: calc(50% - 80px);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
