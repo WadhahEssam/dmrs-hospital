@@ -1,8 +1,21 @@
 import React, { Component } from 'react'
-import { Button, Form, Grid, Header, Image, Message, Segment, Dropdown } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Message, Segment, Dropdown, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom' ;
 
 export default class Login extends Component {
+  state = {
+    username: '',
+    password: '',
+    type: '',
+    isError: false,
+    errorMessage: '',
+    isFetching: false,
+  }
+
+  componentDidUpdate() {
+    // console.log(this.state)
+  }
+
   render() {
     let staffTypes = [
       {
@@ -23,6 +36,13 @@ export default class Login extends Component {
       },
 
     ];
+
+    let renderErrorMessage = (
+      <Message attached='bottom' error>
+        <Icon name='warning' />
+        {this.state.errorMessage}
+      </Message>
+    );
     return (
         <div className='login-form'>
           {/*
@@ -50,23 +70,41 @@ export default class Login extends Component {
               <Header as='h1' color='teal' textAlign='center'>
                 <img className="logo" src='hospital-header.jpg'/>
               </Header>
-              <Form size='large'>
+              <Form size='large' onSubmit={(e) => {e.preventDefault()}}>
                 <Segment stacked>
-                  <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' />
+                  <Form.Input 
+                    value={this.state.username}
+                    fluid 
+                    icon='user' 
+                    iconPosition='left' 
+                    placeholder='Username' 
+                    onChange={(e) => {this.setState({username: e.target.value})}}
+                  />
                   <Form.Input
+                    value = {this.state.password}
                     fluid
                     icon='lock'
                     iconPosition='left'
                     placeholder='Password'
                     type='password'
+                    onChange={(e) => {this.setState({password: e.target.value})}}
                   />
-                  <Form.Dropdown placeholder='Select Friend' fluid selection options={staffTypes} />
+                  <Form.Dropdown
+                    value={this.state.type}
+                    placeholder='Select Friend' 
+                    fluid 
+                    selection 
+                    options={staffTypes} 
+                    onChange={(e, {value}) => {this.setState({type: value})}} 
+                  />
                   
-                  <Button color='teal' fluid size='large'>
+                  <Button loading={this.state.isFetching} color='teal' fluid size='large' onClick={this.handleLogin}>
                     Login
                   </Button>
                 </Segment>
               </Form>
+              {this.state.isError ? renderErrorMessage : <div/>}
+
               <Message>
                 Signing is allowed for hospital staff only
               </Message>
@@ -74,5 +112,38 @@ export default class Login extends Component {
           </Grid>
         </div>
     )
+  }
+
+  handleLogin = () => {
+    let { username, password, type } = this.state;
+    if(username.length < 6) {
+      this.setState({
+        isError: true, 
+        errorMessage: 'Username is too short'
+      })
+    }
+    else if(password.length < 6) {
+      this.setState({
+        isError: true, 
+        errorMessage: 'Password is too short'
+      })
+    }
+    else if(type == '' || type == undefined) {
+      this.setState({
+        isError: true, 
+        errorMessage: 'Please select a type first'
+      })
+    } else {
+      this.setState({
+        isError: false,
+        errorMessage: '',
+        isFetching: true,
+      })
+      setTimeout(()=>{
+        this.setState({isFetching: false});
+        console.log(this.state);
+      }, 1000);
+    }
+
   }
 }
