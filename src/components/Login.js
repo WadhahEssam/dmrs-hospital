@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment, Dropdown, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom' ;
+import { BrowserRouter , Route , Switch, Redirect } from 'react-router-dom' ;
 
 export default class Login extends Component {
   state = {
@@ -139,9 +140,15 @@ export default class Login extends Component {
         errorMessage: '',
         isFetching: true,
       })
+      // saving the user information to the cache storage
+      localStorage.setItem("user", JSON.stringify({
+        username,
+        type
+      }));
       setTimeout(()=>{
         this.setState({isFetching: false});
         console.log(this.state);
+        this.props.history.push('/home');
       }, 1000);
     }
 
