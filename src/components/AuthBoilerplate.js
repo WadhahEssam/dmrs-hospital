@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Segment, Button, Dropdown, Menu, Grid, Image, Container, Card , Label, Input, Icon} from 'semantic-ui-react';
+import { Segment, Button, Dropdown, Menu, Grid, Image, Container, Card , Label, Input, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import ErrorPage from './pages/ErrorPage';
 
@@ -21,7 +21,8 @@ export default class AuthBoilerplate extends Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   render() {
-    const { activeItem } = this.state
+    const { activeItem, user } = this.state
+    const marginBetweenLabels = '3px';
 
     if (this.state.userIsSigned) {
       return (
@@ -30,17 +31,12 @@ export default class AuthBoilerplate extends Component {
           {/* Navbar Menu */}
           <Menu attached size='tiny'>
             <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
-            <Menu.Item
-              name='messages'
-              active={activeItem === 'messages'}
-              onClick={this.handleItemClick}
-            />
             <Menu.Menu position='right'>
               <Menu.Item>
                 King Abdullah Hospital
               </Menu.Item>
               <Menu.Item>
-                <Button color="red">Sign Out</Button>
+                <Button onClick={this.handleLogout} color="red">Sign Out</Button>
               </Menu.Item>
             </Menu.Menu>
           </Menu>
@@ -55,17 +51,34 @@ export default class AuthBoilerplate extends Component {
                   <Card fluid>
                     <Image src='/doctor-profile-picture.jpg' />
                     <Card.Content>
-                      <Card.Header>Matthew</Card.Header>
+                      <Card.Header>{user.username}</Card.Header>
                       <Card.Meta>
-                        <span className='date'>Joined in 2015</span>
+                        <span className='date'>{user.type}</span>
                       </Card.Meta>
-                      <Card.Description>Matthew is a musician living in Nashville.</Card.Description>
+                      <Card.Description><h5>Permissions :</h5></Card.Description>
+                      <Card.Description>
+                        <Label style={{marginTop: marginBetweenLabels}} as='a' color='yellow'>
+                          Serguries
+                        </Label>
+                        <Label style={{marginTop: marginBetweenLabels}} as='a' color='green'>
+                          Diagnosis
+                        </Label>
+                        <Label  style={{marginTop: marginBetweenLabels}} as='a' color='red'>
+                          Blood Donations
+                        </Label>
+                        <Label style={{marginTop: marginBetweenLabels}} as='a' color='brown'>
+                          Radiology Tests
+                        </Label>
+                        <Label style={{marginTop: marginBetweenLabels}} as='a' color='olive'>
+                          Labe Tests
+                        </Label>
+                        <Label style={{marginTop: marginBetweenLabels}} as='a' color='violet'>
+                          Drug Prescriptions
+                        </Label>
+                      </Card.Description>
                     </Card.Content>
-                    <Card.Content extra>
-                      <a>
-                        <Icon name='user' />
-                        22 Friends
-                      </a>
+                    <Card.Content extra textAlign="center">
+                        <Icon color="teal" name='dot circle' />
                     </Card.Content>
                   </Card>
                 </Grid.Row>
@@ -73,20 +86,13 @@ export default class AuthBoilerplate extends Component {
                 {/* Side Menu */}
                 <Grid.Row style={{marginTop: '30px'}}>
                   <Menu fluid vertical>
-                    <Menu.Item name='inbox' active={activeItem === 'inbox'} onClick={this.handleItemClick}>
-                      <Label color='teal'>1</Label>
-                      Inbox
+                    <Menu.Item name='openMedicalRecord' active={activeItem === 'openMedicalRecord'} onClick={this.handleItemClick}>
+                      <Icon name="address card" color="teal"/>
+                      Open medical record
                     </Menu.Item>
                     <Menu.Item name='spam' active={activeItem === 'spam'} onClick={this.handleItemClick}>
-                      <Label>51</Label>
-                      Spam
-                    </Menu.Item>
-                    <Menu.Item name='updates' active={activeItem === 'updates'} onClick={this.handleItemClick}>
-                      <Label>1</Label>
-                      Updates
-                    </Menu.Item>
-                    <Menu.Item>
-                      <Input icon='search' placeholder='Search mail...' />
+                      <Icon name="add user" color="teal"/>
+                      Create medical recrod
                     </Menu.Item>
                   </Menu>
                 </Grid.Row>
