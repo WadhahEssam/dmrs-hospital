@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment, Dropdown, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom' ;
 import { BrowserRouter , Route , Switch, Redirect } from 'react-router-dom' ;
-import users from '../../data/users';
+import Model from '../../data/Model';
 
 export default class Login extends Component {
   state = {
-    username: '',
+    email: '',
     password: '',
     type: '',
     isError: false,
@@ -15,7 +15,7 @@ export default class Login extends Component {
   }
 
   componentDidMount() {
-    console.log(users);
+    console.log(Model.checkUser('mohammed@hotmail.com', '112233'));
   }
 
   render() {
@@ -75,12 +75,12 @@ export default class Login extends Component {
               <Form size='large' onSubmit={(e) => {e.preventDefault()}}>
                 <Segment stacked>
                   <Form.Input 
-                    value={this.state.username}
+                    value={this.state.email}
                     fluid 
-                    icon='user' 
+                    icon='at' 
                     iconPosition='left' 
-                    placeholder='Username' 
-                    onChange={(e) => {this.setState({username: e.target.value})}}
+                    placeholder='Email' 
+                    onChange={(e) => {this.setState({email: e.target.value})}}
                   />
                   <Form.Input
                     value = {this.state.password}
@@ -117,11 +117,11 @@ export default class Login extends Component {
   }
 
   handleLogin = () => {
-    let { username, password, type } = this.state;
-    if(username.length < 6) {
+    let { email, password, type } = this.state;
+    if(email.length < 6) {
       this.setState({
         isError: true, 
-        errorMessage: 'Username is too short'
+        errorMessage: 'Email is too short'
       })
     }
     else if(password.length < 6) {
@@ -135,22 +135,26 @@ export default class Login extends Component {
         isError: true, 
         errorMessage: 'Please select a type first'
       })
-    } else {
+    } else if (Model.checkUser(email, password, type)) {
       this.setState({
         isError: false,
         errorMessage: '',
         isFetching: true,
       })
       // saving the user information to the cache storage
-      localStorage.setItem("user", JSON.stringify({
-        username,
-        type
-      }));
+      console.log(Model.getUser(email))
+      localStorage.setItem("user", JSON.stringify(Model.getUser(email)));
       setTimeout(()=>{
         this.setState({isFetching: false});
         console.log(this.state);
         this.props.history.push('/home');
       }, 1000);
+    }
+    else {
+      this.setState({
+        isError: true, 
+        errorMessage: 'User information is worng'
+      })
     }
 
   }

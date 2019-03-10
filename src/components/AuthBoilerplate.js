@@ -51,7 +51,7 @@ export default class AuthBoilerplate extends Component {
                     <Card.Content>
                       <Card.Header>{user.username}</Card.Header>
                       <Card.Meta>
-                        <span className='date'>{user.type}</span>
+                        <span className='date'>{user.type.name}</span>
                       </Card.Meta>
                       <Card.Description><h5>Permissions :</h5></Card.Description>
                       <Card.Description>
