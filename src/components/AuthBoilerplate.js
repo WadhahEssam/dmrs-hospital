@@ -34,6 +34,11 @@ export default class AuthBoilerplate extends Component {
     }
   }
 
+  handleLogout = () => {
+    localStorage.removeItem('user');
+    this.props.history.push('/login');
+  }
+
   checkUser = () => {
     let user = JSON.parse(localStorage.getItem('user'));
     if (user == undefined) {
