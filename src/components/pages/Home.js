@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AuthBoilerplate from './AuthBoilerplate'
+import AuthBoilerplate from '../AuthBoilerplate'
 
 export default class Home extends Component {
   render() {

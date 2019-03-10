@@ -7,8 +7,8 @@ import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 // import logo from './img/logo.png';
 import { BrowserRouter , Route , Switch } from 'react-router-dom' ;
-import Login from './components/Login';
-import Home from './components/Home';
+import Login from './components/pages/Login';
+import Home from './components/pages/Home';
 
 class App extends Component {
 
