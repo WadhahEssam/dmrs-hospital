@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment, Dropdown, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom' ;
 import { BrowserRouter , Route , Switch, Redirect } from 'react-router-dom' ;
+import users from '../../data/users';
 
 export default class Login extends Component {
   state = {
@@ -13,8 +14,8 @@ export default class Login extends Component {
     isFetching: false,
   }
 
-  componentDidUpdate() {
-    // console.log(this.state)
+  componentDidMount() {
+    console.log(users);
   }
 
   render() {

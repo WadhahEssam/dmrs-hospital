@@ -41,8 +41,6 @@ export default class AuthBoilerplate extends Component {
             </Menu.Menu>
           </Menu>
 
-
-
             <Grid centered padded>
               <Grid.Column width={3}>
         
