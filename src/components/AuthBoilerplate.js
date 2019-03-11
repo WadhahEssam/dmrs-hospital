@@ -99,7 +99,6 @@ export default class AuthBoilerplate extends Component {
               {/* Content */}
               <Grid.Column width={12}>
                 {this.props.children}
-                <Button onClick={this.handleLogout}>Logout</Button>
               </Grid.Column>
             </Grid>
         </div>
