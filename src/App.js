@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter , Route , Switch } from 'react-router-dom' ;
 import Login from './components/pages/Login';
 import Home from './components/pages/Home';
+import CreateMedicalRecord from './components/pages/CreateMedicalRecord';
 
 class App extends Component {
 
@@ -19,6 +20,7 @@ class App extends Component {
           <div>
             <Switch>
               <Route  path="/home" component={Home} />
+              <Route path="/createMedicalRecord" component={CreateMedicalRecord} />
               <Route path="/" component={Login} />
             </Switch>
           </div>
