@@ -33,7 +33,7 @@ export default class Login extends Component {
         value: 'radiologist',
       },
       {
-        text: 'Laboratory technician',
+        text: 'Laboratory Technician',
         value: 'laboratoryTechnician',
       },
 
