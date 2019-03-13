@@ -14,7 +14,9 @@ class MedicalRecord extends Component {
 
     render() {
         return (
-            <h3>Medical Record Page</h3>
+            <AuthBoilerplate>
+                
+            </AuthBoilerplate>
         )
     }
 }
