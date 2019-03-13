@@ -10,6 +10,7 @@ import { BrowserRouter , Route , Switch } from 'react-router-dom' ;
 import Login from './components/pages/Login';
 import Home from './components/pages/Home';
 import CreateMedicalRecord from './components/pages/CreateMedicalRecord';
+import LabTestForm from './components/pages/LabTestForm';
 
 class App extends Component {
 
@@ -22,6 +23,7 @@ class App extends Component {
               <Route  path="/home" component={Home} />
               <Route path="/createMedicalRecord" component={CreateMedicalRecord} />
               <Route path="/" component={Login} />
+              <Route path="/labTest" component={LabTestForm} />
             </Switch>
           </div>
         </BrowserRouter>
