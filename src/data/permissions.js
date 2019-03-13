@@ -1,3 +1,5 @@
+// This file contains the different permissions a type can have.
+
 let permissions = {
   "surgeries": {
     name: 'Surgeries',
