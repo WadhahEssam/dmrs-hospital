@@ -22,11 +22,16 @@ class LabTestForm extends Component {
                 </Segment>
                 <Segment fluid>
                   <Form fluid>
-                    <Form.Group widths='equal'>
-                      <Form.Input fluid label='Worker Full Name' placeholder='Eg. Mohammed Salem' />
-                      <Form.Select fluid label='Test Type' options={options} placeholder='Gender' />
-                      <Form.TextArea placeholder='TestDescription' autoHeight />
-                    </Form.Group>
+                    <Form.Field>
+                    <Form.Input fluid label='Worker Full Name' placeholder='Eg. Mohammed Salem' />
+                    </Form.Field>
+                    <Form.Field>
+                    <Form.Select fluid label='Test Type' options={options} placeholder='Gender' />
+                    </Form.Field>
+                    <Form.Field>
+                    <Form.TextArea label='Test Description' placeholder='Write the full details of the report here...' autoHeight />
+                    </Form.Field>
+                    <Button primary>Submit Report</Button>
                   </Form>
                   </Segment>
               </Container>
