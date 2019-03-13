@@ -21,11 +21,11 @@ class App extends Component {
         <BrowserRouter>
           <div>
             <Switch>
-              <Route  path="/home" component={Home} />
+              <Route path="/home" component={Home} />
               <Route path="/createMedicalRecord" component={CreateMedicalRecord} />
-              <Route path="/" component={Login} />
+              <Route exact path="/" component={Login} />
               <Route path="/labTest" component={LabTestForm} />
-              <Route path="/:id/medicalRecord" component={MedicalRecord} />
+              <Route path="/medicalRecord" component={MedicalRecord} />
             </Switch>
           </div>
         </BrowserRouter>
