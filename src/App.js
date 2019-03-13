@@ -11,6 +11,7 @@ import Login from './components/pages/Login';
 import Home from './components/pages/Home';
 import CreateMedicalRecord from './components/pages/CreateMedicalRecord';
 import LabTestForm from './components/pages/LabTestForm';
+import MedicalRecord from './components/pages/MedicalRecord'
 
 class App extends Component {
 
@@ -24,6 +25,7 @@ class App extends Component {
               <Route path="/createMedicalRecord" component={CreateMedicalRecord} />
               <Route path="/" component={Login} />
               <Route path="/labTest" component={LabTestForm} />
+              <Route path="/:id/medicalRecord" component={MedicalRecord} />
             </Switch>
           </div>
         </BrowserRouter>
