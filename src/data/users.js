@@ -1,3 +1,6 @@
+// This file contains the hard-coded users used for this project.
+// Every user object has the following info: email, username, password, and type.
+
 import types from './types';
 
 let users = [
@@ -12,6 +15,18 @@ let users = [
     username: "Mohammed Khaled",
     password: "112233",
     type: types['receptionist']
+  },
+  {
+    email: "dr.alobaili@gmail.com",
+    username: "Abdulaziz Alobaili",
+    password: "112233",
+    type: types['laboratoryTechnician']
+  },
+  {
+    email: "dr.alobaili@gmail.com",
+    username: "Abdulaziz Alobaili",
+    password: "112233",
+    type: types['radiology']
   }
 ];
 
