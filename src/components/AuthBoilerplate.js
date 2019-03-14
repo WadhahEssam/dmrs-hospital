@@ -20,6 +20,23 @@ export default class AuthBoilerplate extends Component {
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
+  generatePermissionLabels(user) {
+    if (user != null) {
+      const userPermissionsArray = user.type.permissions
+      let returnedArray = []
+      
+      userPermissionsArray.forEach(element => {
+        returnedArray.push(
+          <Label style={{marginTop: this.marginBetweenLabels}} as='a' color={element.color}>
+            {element.name}
+          </Label>
+        )
+      })
+
+      return returnedArray
+    }
+  }
+
   render() {
     const { activeItem, user } = this.state
     const marginBetweenLabels = '3px';
@@ -55,24 +72,7 @@ export default class AuthBoilerplate extends Component {
                       </Card.Meta>
                       <Card.Description><h5>Permissions :</h5></Card.Description>
                       <Card.Description>
-                        <Label style={{marginTop: marginBetweenLabels}} as='a' color='yellow'>
-                          Serguries
-                        </Label>
-                        <Label style={{marginTop: marginBetweenLabels}} as='a' color='green'>
-                          Diagnosis
-                        </Label>
-                        <Label  style={{marginTop: marginBetweenLabels}} as='a' color='red'>
-                          Blood Donations
-                        </Label>
-                        <Label style={{marginTop: marginBetweenLabels}} as='a' color='brown'>
-                          Radiology Tests
-                        </Label>
-                        <Label style={{marginTop: marginBetweenLabels}} as='a' color='olive'>
-                          Labe Tests
-                        </Label>
-                        <Label style={{marginTop: marginBetweenLabels}} as='a' color='violet'>
-                          Drug Prescriptions
-                        </Label>
+                        {this.generatePermissionLabels(this.state.user)}
                       </Card.Description>
                     </Card.Content>
                     <Card.Content extra textAlign="center">
