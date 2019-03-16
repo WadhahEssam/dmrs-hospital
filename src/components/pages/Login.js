@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { Button, Form, Grid, Header, Image, Message, Segment, Dropdown, Icon } from 'semantic-ui-react'
-import { Link } from 'react-router-dom' ;
-import { BrowserRouter , Route , Switch, Redirect } from 'react-router-dom' ;
+import { Button, Form, Grid, Header, Message, Segment, Icon } from 'semantic-ui-react'
 import Model from '../../data/Model';
+import { withRouter } from 'react-router-dom'
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     email: '',
     password: '',
@@ -70,7 +69,7 @@ export default class Login extends Component {
           <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
               <Header as='h1' color='teal' textAlign='center'>
-                <img className="logo" src='hospital-header.jpg'/>
+                <img className="logo" src='hospital-header.jpg' alt="King Abdullah bin Abdulaziz University Hospital"/>
               </Header>
               <Form size='large' onSubmit={(e) => {e.preventDefault()}}>
                 <Segment stacked>
@@ -130,7 +129,7 @@ export default class Login extends Component {
         errorMessage: 'Password is too short'
       })
     }
-    else if(type == '' || type == undefined) {
+    else if(type === '' || !type) {
       this.setState({
         isError: true, 
         errorMessage: 'Please select a type first'
@@ -159,3 +158,5 @@ export default class Login extends Component {
 
   }
 }
+
+export default withRouter(Login)

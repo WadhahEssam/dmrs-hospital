@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import AuthBoilerplate from '../AuthBoilerplate'
-import { TextArea, Segment, Input, Divider, Button, Container, Card, Grid, Form, Message, Label } from 'semantic-ui-react'
+import { Segment, Button, Container, Form, Message } from 'semantic-ui-react'
 
 class LabTestForm extends Component {
   
@@ -15,7 +15,7 @@ class LabTestForm extends Component {
       return (
         <div>
           <AuthBoilerplate history={this.props.history}>
-              <Container padded style={{padding: '20px'}} fluid>
+              <Container padded="true" style={{padding: '20px'}} fluid>
                 <Segment>
                   <h3>Create Laboratory Test Report</h3>
                   <Message warning>Be sure of the information you put, because you will not be able to modify it later.</Message>

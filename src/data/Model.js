@@ -8,7 +8,7 @@ export default class Model {
   // Check if the passed user exists in the prefilled users list
   static checkUser(email, password, type) {
     for (let i = 0; i < users.length; i++) {
-      if (users[i].email == email && users[i].password == password && users[i].type.name == type) {
+      if (users[i].email === email && users[i].password === password && users[i].type.name === type) {
         console.log(users[i])
         return true;
       } 
@@ -18,7 +18,7 @@ export default class Model {
 
   static getUser(email) {
     for (let i = 0; i < users.length; i++) {
-      if (users[i].email == email) {
+      if (users[i].email === email) {
         return users[i];
       } 
     }

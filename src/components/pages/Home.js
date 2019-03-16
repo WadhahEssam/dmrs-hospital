@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import AuthBoilerplate from '../AuthBoilerplate'
-import { Segment, Input, Divider, Button, Container, Card, Grid, Form, Message, Label } from 'semantic-ui-react'
+import { Segment, Input, Divider, Button, Container, Grid, Message, Label } from 'semantic-ui-react'
 
 export default class Home extends Component {
   render() {
     return (
       <div>
         <AuthBoilerplate history={this.props.history}>
-            <Container padded style={{padding: '20px'}}>
+            <Container padded="true" style={{padding: '20px'}}>
               <Segment>
                 <h3>Medical Record</h3>
                 <Message>Retrieve medical record by patient national ID number, or create a new medical record.</Message>

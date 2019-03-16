@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Segment, Button, Dropdown, Menu, Grid, Image, Container, Card , Label, Input, Icon } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Button, Menu, Grid, Image, Card , Label, Icon } from 'semantic-ui-react';
 import ErrorPage from './pages/ErrorPage';
 
 export default class AuthBoilerplate extends Component {
@@ -25,9 +24,9 @@ export default class AuthBoilerplate extends Component {
       const userPermissionsArray = user.type.permissions
       let returnedArray = []
       
-      userPermissionsArray.forEach(element => {
+      userPermissionsArray.forEach((element, index) => {
         returnedArray.push(
-          <Label style={{marginTop: this.marginBetweenLabels}} as='a' color={element.color}>
+          <Label style={{marginTop: '3px'}} as='a' color={element.color} key={index}>
             {element.name}
           </Label>
         )
@@ -39,7 +38,6 @@ export default class AuthBoilerplate extends Component {
 
   render() {
     const { activeItem, user } = this.state
-    const marginBetweenLabels = '3px';
 
     if (this.state.userIsSigned) {
       return (
@@ -120,7 +118,7 @@ export default class AuthBoilerplate extends Component {
 
   checkUser = () => {
     let user = JSON.parse(localStorage.getItem('user'));
-    if (user == undefined) {
+    if (!user) {
       this.setState({userIsSigned: false, user: null});
     } else {
       this.setState({userIsSigned: true, user});
