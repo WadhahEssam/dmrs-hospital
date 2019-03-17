@@ -20,8 +20,8 @@ class LabTestForm extends Component {
                   <h3>Create Laboratory Test Report</h3>
                   <Message warning>Be sure of the information you put, because you will not be able to modify it later.</Message>
                 </Segment>
-                <Segment fluid>
-                  <Form fluid>
+                <Segment fluid='true'>
+                  <Form fluid='true'>
                     <Form.Field>
                     <Form.Input fluid label='Worker Full Name' placeholder='Eg. Mohammed Salem' />
                     </Form.Field>
