@@ -14,7 +14,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    console.log(Model.checkUser('mohammed@hotmail.com', '112233'));
+    //console.log(Model.checkUser('mohammed@hotmail.com', '112233'));
   }
 
   render() {
