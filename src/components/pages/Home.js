@@ -3,6 +3,9 @@ import AuthBoilerplate from '../AuthBoilerplate'
 import { Segment, Input, Divider, Button, Container, Grid, Message, Label } from 'semantic-ui-react'
 
 export default class Home extends Component {
+  state = {
+    id: 0
+  }
   render() {
     return (
       <div>
@@ -19,10 +22,13 @@ export default class Home extends Component {
                     <br/>
                     <Input
                       style={{ position: 'relative', right: '40px', top: '10px' }}
-                      action={{ color: 'blue', content: 'Open' }}
+                      action={{ color: 'blue', content: 'Open', onClick: (e) => {this.props.history.push(`/${this.state.id}/medicalRecord`)}}}
                       icon='user'
                       iconPosition='left'
                       placeholder='National ID'
+                      onChange={(e) => {
+                        this.setState({ id: e.target.value })
+                      }}
                     />
                   </Grid.Column>
                   <Grid.Column textAlign="center">
