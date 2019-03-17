@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Menu, Grid, Image, Card , Label, Icon } from 'semantic-ui-react';
 import ErrorPage from './pages/ErrorPage';
+import { withRouter } from 'react-router-dom'
 
-export default class AuthBoilerplate extends Component {
+class AuthBoilerplate extends Component {
   state = {
     userIsSigned: false,
     user: null,
@@ -13,11 +14,10 @@ export default class AuthBoilerplate extends Component {
     this.checkUser();
   }
 
-  componentDidUpdate() {
-    console.log(this.state)
+  handleItemClick = (e, { name }) => {
+    this.setState({ activeItem: name })
+    this.props.history.push('/home')
   }
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   generatePermissionLabels(user) {
     if (user != null) {
@@ -125,3 +125,5 @@ export default class AuthBoilerplate extends Component {
     }
   }
 }
+
+export default withRouter(AuthBoilerplate)
