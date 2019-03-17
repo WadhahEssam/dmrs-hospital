@@ -33,6 +33,8 @@ class AuthBoilerplate extends Component {
       })
 
       return returnedArray
+    } else {
+      console.log('user is null')
     }
   }
 
