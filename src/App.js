@@ -12,6 +12,7 @@ import Home from './components/pages/Home';
 import CreateMedicalRecord from './components/pages/CreateMedicalRecord';
 import LabTestForm from './components/pages/LabTestForm';
 import MedicalRecord from './components/pages/MedicalRecord'
+import RadioScanForm from './components/pages/RadioScanForm'
 
 class App extends Component {
 
@@ -46,6 +47,7 @@ class App extends Component {
               )}/>
               <Route path="/labTest" component={LabTestForm} />
               <Route path="/:id/medicalRecord" component={MedicalRecord} />
+              <Route path="/radioScan" component={RadioScanForm} />
             </Switch>
           </div>
         </BrowserRouter>
