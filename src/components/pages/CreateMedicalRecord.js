@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import AuthBoilerplate from '../AuthBoilerplate'
-import { Segment, Input, Divider, Button, Container, Card, Grid, Form, Message, Label } from 'semantic-ui-react'
+import { Segment, Container, Form, Message } from 'semantic-ui-react'
 
 export default class Home extends Component {
   
