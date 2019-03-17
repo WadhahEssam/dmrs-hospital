@@ -7,8 +7,10 @@ import {
   Grid,
   Segment,
   Container,
-  Label
+  Label,
+  Button
 } from "semantic-ui-react";
+import { withRouter } from 'react-router-dom'
 
 class MedicalRecord extends Component {
   state = {
@@ -75,9 +77,11 @@ class MedicalRecord extends Component {
                     </Grid.Row>
                     <Grid.Row>
                         <Label>Lab Tests</Label>
+                        <Button primary onClick={(e) => {this.props.history.push('/labTest')}}>Add new lab test</Button>
                     </Grid.Row>
                     <Grid.Row>
                         <Label>Radiology Scans</Label>
+                        <Button primary onClick={(e) => {this.props.history.push('/radioScan')}}>Add new scan</Button>
                     </Grid.Row>
                     <Grid.Row>
                         <Label>Medicen Subscriptions</Label>
@@ -90,4 +94,4 @@ class MedicalRecord extends Component {
   }
 }
 
-export default MedicalRecord;
+export default withRouter(MedicalRecord);
