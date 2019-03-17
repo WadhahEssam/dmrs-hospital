@@ -23,10 +23,10 @@ let users = [
     type: types['laboratoryTechnician']
   },
   {
-    email: "dr.alobaili@gmail.com",
-    username: "Abdulaziz Alobaili",
+    email: "khalid@gmail.com",
+    username: "Khalid Ahmad",
     password: "112233",
-    type: types['radiology']
+    type: types['radiologist']
   }
 ];
 
