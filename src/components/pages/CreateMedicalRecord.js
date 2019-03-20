@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import AuthBoilerplate from '../AuthBoilerplate'
 import { Segment, Container, Form, Message, Label, Button, Radio } from 'semantic-ui-react'
-import DatePicker from 'react-datepicker'
-import "react-datepicker/dist/react-datepicker.css";
-import dateformat from 'dateformat';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 
