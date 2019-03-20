@@ -13,10 +13,12 @@ export default class Home extends Component {
     nationalID: '',
     phoneNumber: '',
     gender: '',
-    birthDate: Date.now(),
+    birthDate: '',
     isOpen: false,
     bloodType: '',
     emergencyContact: '',
+    isError: false,
+    errorMessage: '',
   }
 
   render() {
@@ -34,6 +36,10 @@ export default class Home extends Component {
               <Segment>
                 <h3>Create Medical Record</h3>
                 <Message warning>Be sure of the information you put, because you will not be able to modify it later.</Message>
+                {
+                  (this.state.isError) ? <Message error>{this.state.errorMessage}</Message> : <div/>
+                }
+                
               </Segment>
               <Segment>
                 <Form onSubmit={(e) => e.preventDefault()}>
@@ -149,7 +155,25 @@ export default class Home extends Component {
   }
 
   submitForm = () => {
-    console.log(this.state)
+    const patient = this.state;
+    if (patient.gender == '') {
+      this.setState({isError: true, errorMessage: 'Please select patient gender.'})
+    } else if (patient.bloodType == '') {
+      this.setState({isError: true, errorMessage: 'Please select patient blood type.'})
+    } else if (patient.name == '') {
+      this.setState({isError: true, errorMessage: 'Please enter patient full name.'})
+    } else if (patient.birthDate == '') {
+      this.setState({isError: true, errorMessage: 'Please enter patient birth date.'})
+    } else if (patient.nationalID == '') {
+      this.setState({isError: true, errorMessage: 'Please enter patient national id.'})
+    } else if (patient.emergencyContact == '') {
+      this.setState({isError: true, errorMessage: 'Please select patient emergency contact'})
+    } 
+    else {
+      this.setState({isError: false,})
+      console.log('every thing looks fine')
+      console.log(this.state)
+    }
   }
 
   handleBloodTypeChange = (e, bloodType) => this.setState({ bloodType: bloodType.value })
