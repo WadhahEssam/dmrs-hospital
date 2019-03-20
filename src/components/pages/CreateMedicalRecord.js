@@ -4,6 +4,8 @@ import { Segment, Container, Form, Message, Label, Button, Radio } from 'semanti
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import dateformat from 'dateformat';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
 
 export default class Home extends Component {
   state = {
@@ -11,14 +13,10 @@ export default class Home extends Component {
     nationalID: '',
     phoneNumber: '',
     gender: '',
-    birthDate: 946688461,
+    birthDate: Date.now(),
     isOpen: false,
     bloodType: '',
-  }
-
-  componentDidUpdate() {
-    console.log(this.state)
-    console.log(Date.now())
+    emergencyContact: '',
   }
 
   render() {
@@ -26,8 +24,8 @@ export default class Home extends Component {
       { key: 'm', text: 'Male', value: 'male' },
       { key: 'f', text: 'Female', value: 'female' },
     ]
-    
     const { bloodType } = this.state
+    const { birthDate } = this.state;
 
     return (
       <div>
@@ -38,32 +36,41 @@ export default class Home extends Component {
                 <Message warning>Be sure of the information you put, because you will not be able to modify it later.</Message>
               </Segment>
               <Segment>
-                <Form>
+                <Form onSubmit={(e) => e.preventDefault()}>
                   <Form.Group widths='equal'>
-                    <Form.Input fluid label='Full name' placeholder='Eg. Mohammed Salem' />
-                    <Form.Input fluid label='National ID' placeholder='Eg. 0245128399' />
+                    <Form.Input 
+                      fluid 
+                      label='Full name' 
+                      placeholder='Eg. Mohammed Salem' 
+                      onChange={(e, {value}) => this.setState({name: value})}
+                    />
+                    <Form.Input 
+                      fluid 
+                      type="number"
+                      label='National ID' 
+                      placeholder='Eg. 0245128399' 
+                      onChange={(e, {value}) => this.setState({nationalID: value})}
+                    />
                   </Form.Group>
+                  <Form.Field>
+                    <label>Date of Birth</label>
+                    <DayPickerInput style={{width: '100%'}} onDayChange={this.handleDayChange} />
+                  </Form.Field>
                   <Form.Group widths='equal'>
-                    <Form.Field fluid>
-                      <label>Date of Birth</label>
-                      <Button
-                        style={{width: '100%'}}
-                        className="example-custom-input"
-                        onClick={this.toggleCalendar}>
-                        {dateformat(this.state.startDate, "dd-MM-yyyy")}
-                      </Button>
-                        {
-                          this.state.isOpen && (
-                            <DatePicker
-                              selected={this.state.birthDate}
-                              onChange={this.handleBirthDateChange}
-                              withPortal
-                              inline />
-                          )
-                        }
-                    </Form.Field>
-                    <Form.Input fluid label='Phone Number' placeholder='Eg. 0551292881' />
-                    <Form.Select fluid label='Gender' options={options} onChange={this.handleGenderChange} placeholder='Gender' />
+                    <Form.Input 
+                      fluid 
+                      type="number"
+                      label='Phone Number' 
+                      placeholder='Eg. 0551292881' 
+                      onChange={(e, {value}) => this.setState({phoneNumber: value})}
+                    />
+                    <Form.Select 
+                      fluid 
+                      label='Gender' 
+                      options={options} 
+                      onChange={this.handleGenderChange} 
+                      placeholder='Gender' 
+                    />
                   </Form.Group>
                   <Form.Group inline style={{marginTop: '25px'}}>
                     <label style={{position: 'relative', bottom: '5px'}}>Quantity</label>
@@ -124,8 +131,14 @@ export default class Home extends Component {
                       onChange={this.handleBloodTypeChange}
                     />
                   </Form.Group>
-                  <Form.Input fluid label='Emergency Contact' placeholder='Eg. 0551292881' />
-                  <Button color="green">Create Medical Record</Button>
+                  <Form.Input 
+                    type="number"
+                    fluid 
+                    label='Emergency Contact' 
+                    placeholder='Eg. 0551292881' 
+                    onChange={(e, {value}) => this.setState({emergencyContact: value})}
+                  />
+                  <Button onClick={this.submitForm} color="green">Create Medical Record</Button>
                   <Button color="red">Cancel</Button>
                 </Form>
                 </Segment>
@@ -135,19 +148,17 @@ export default class Home extends Component {
     )
   }
 
+  submitForm = () => {
+    console.log(this.state)
+  }
+
   handleBloodTypeChange = (e, bloodType) => this.setState({ bloodType: bloodType.value })
 
-  handleBirthDateChange = (date) => {
-    this.setState({birthDate: date})
-    this.toggleCalendar()
-  }
-  
-  toggleCalendar = (e) => {
-    e && e.preventDefault()
-    this.setState({isOpen: !this.state.isOpen})
+  handleGenderChange = (e, {value}) => {
+    this.setState({gender: value})
   }
 
-  handleGenderChange = (e) => {
-    
+  handleDayChange = (day) => {
+    this.setState({ birthDate: day });
   }
 }
