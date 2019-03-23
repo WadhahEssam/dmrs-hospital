@@ -2,8 +2,16 @@
 
 import React, { Component } from "react";
 import AuthBoilerplate from "../AuthBoilerplate";
-import { Card, Table, Grid, Segment, Container, Label, Button } from "semantic-ui-react";
-import { withRouter, Link } from 'react-router-dom'
+import {
+  Image,
+  Card,
+  Table,
+  Grid,
+  Segment,
+  Container,
+  Label
+} from "semantic-ui-react";
+import { withRouter, Link } from "react-router-dom";
 
 class MedicalRecord extends Component {
     state = {
