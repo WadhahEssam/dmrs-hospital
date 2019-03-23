@@ -21,7 +21,8 @@ class MedicalRecord extends Component {
     render() {
 
         const cardPlaceholderPath = '/card-placeholder.png'
-
+        const padding = "20px"
+        
         return (
             <AuthBoilerplate>
                 <Container padded="true" style={{ padding: "20px" }}>
@@ -83,22 +84,85 @@ class MedicalRecord extends Component {
                         </Grid>
                     </Segment>
                     <Segment>
-                        <Card.Group>
-                            <Link style={{ padding: '10px' }} to={`/${this.state.id}/diagnoses`} >
-                                <Card color='orange' raised header='Diognosis' image={cardPlaceholderPath} />
-                            </Link>
-                            <Link style={{ padding: '10px' }} to={`/${this.state.id}/surgeries`} >
-                                <Card color='red' raised header='Surgeries' image={cardPlaceholderPath} />
-                            </Link>
-                            <Link style={{ padding: '10px' }} to={`/${this.state.id}/labTests`} >
-                                <Card color='green' raised header='Lab Tests' image={cardPlaceholderPath} />
-                            </Link>
-                            <Link style={{ padding: '10px' }} to={`/${this.state.id}/radiologyScans`} >
-                                <Card color='yellow' raised header='Radiology Scans' image={cardPlaceholderPath} />
-                            </Link>
-                            <Link style={{ padding: '10px' }} to={`/${this.state.id}/medicinePrescriptions`} >
-                                <Card color='blue' raised header='Medicine Prescriptions' image={cardPlaceholderPath} />
-                            </Link>
+                        <Card.Group centered>
+                        <Link style={{ padding }} to={`/${this.state.id}/diagnoses`}>
+                            <Card color="orange" raised>
+                            <div style={{ height: "242px" }}>
+                                <Image
+                                centered
+                                src="/examination.svg"
+                                size="small"
+                                style={{ position: "relative", top: "50px" }}
+                                />
+                            </div>
+                            <Card.Content>
+                                <Card.Header textAlign='center'>Diagnoses</Card.Header>
+                            </Card.Content>
+                            </Card>
+                        </Link>
+                        <Link style={{ padding }} to={`/${this.state.id}/surgeries`}>
+                            <Card color="orange" raised>
+                            <div style={{ height: "242px" }}>
+                                <Image
+                                centered
+                                src="/surgery-tools.svg"
+                                size="small"
+                                style={{ position: "relative", top: "50px" }}
+                                />
+                            </div>
+                            <Card.Content>
+                                <Card.Header textAlign='center'>Surgeries</Card.Header>
+                            </Card.Content>
+                            </Card>
+                        </Link>
+                        <Link style={{ padding }} to={`/${this.state.id}/labTests`}>
+                            <Card color="orange" raised>
+                            <div style={{ height: "242px" }}>
+                                <Image
+                                centered
+                                src="/chemistry.svg"
+                                size="small"
+                                style={{ position: "relative", top: "50px" }}
+                                />
+                            </div>
+                            <Card.Content>
+                                <Card.Header textAlign='center'>Lab Tests</Card.Header>
+                            </Card.Content>
+                            </Card>
+                        </Link>
+                        <Link style={{ padding }} to={`/${this.state.id}/radiologyScans`}>
+                        <Card color="orange" raised>
+                            <div style={{ height: "242px" }}>
+                                <Image
+                                centered
+                                src="/x-ray.svg"
+                                size="small"
+                                style={{ position: "relative", top: "50px" }}
+                                />
+                            </div>
+                            <Card.Content>
+                                <Card.Header textAlign='center'>Radiology Scans</Card.Header>
+                            </Card.Content>
+                            </Card>
+                        </Link>
+                        <Link
+                            style={{ padding }}
+                            to={`/${this.state.id}/medicinePrescriptions`}
+                        >
+                            <Card color="orange" raised>
+                            <div style={{ height: "242px" }}>
+                                <Image
+                                centered
+                                src="/prescription.svg"
+                                size="small"
+                                style={{ position: "relative", top: "50px" }}
+                                />
+                            </div>
+                            <Card.Content>
+                                <Card.Header textAlign='center'>Medicine Prescriptions</Card.Header>
+                            </Card.Content>
+                            </Card>
+                        </Link>
                         </Card.Group>
                     </Segment>
                 </Container>

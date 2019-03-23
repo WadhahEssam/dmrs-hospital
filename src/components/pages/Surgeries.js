@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import AuthBoilerplate from '../AuthBoilerplate'
-import { Segment, Container, Card, Table, Form, Message, Label, Button, Radio, Image } from 'semantic-ui-react'
+import { Segment, Container, Card, Table, Form, Message, Label, Button, Radio, Image, Icon } from 'semantic-ui-react'
 import { SSL_OP_NETSCAPE_CHALLENGE_BUG } from 'constants';
 
 export default class Home extends Component {
@@ -34,7 +34,7 @@ export default class Home extends Component {
         surgeryName: 'Debridement of wound, burn, or infection',
         doctor: 'dr. Khaled Saud',
         date: 973904461,
-        isMedicalError: false,
+        isMedicalError: true,
         isCorrectionFor: null,
         hospitalName: 'King Khaled Hospital',
         fileHash: '1230874612983',
@@ -63,12 +63,18 @@ export default class Home extends Component {
         duration: 60,
         blockchainAddress: '0x012ax9sa897099sd98aada9889x8s9dsa08dee'
       },
-
     ]
 
     let surgeriesCards = surgeries.map((surgery) => {
       return (
-        <Card fluid color='red' header='Option 1' style={{margin: "30px"}}>
+        <Card fluid color='red' header='Option 1' style={{marginTop: "30px", marginBottom: "30px"}}>
+          <Container style={{padding: '10px'}}>
+            {
+              (surgery.isMedicalError) ? 
+              <Label color='red' ribbon>Medical Error</Label> :
+              <div/>
+            }
+
             <Table celled>
                 <Table.Body>
                     <Table.Row>
@@ -91,26 +97,33 @@ export default class Home extends Component {
                     </Table.Row>
                 </Table.Body>
             </Table>
-            <Card.Description>
-              <Container textAlign="center">
-                <Label size="big" basic pointing='below'>
-                  Extra Information 
-                </Label>
-                <h6>Due to the patient lake of sleep during the last two months and according to the tests he did it appeared to be a problem that needed an argunt  </h6>
-              </Container>
-              <hr/>
-              <Container textAlign="center" style={{paddingBottom: '10px'}}>
-                <Label size="big" basic pointing='below'>
-                  File
-                </Label>
-                <br/>
-                <Image
-                  size="medium"
-                  label={{ as: 'a', corner: 'left', icon: 'plus' }}
-                  src='surgeryDocument.jpg'
-                />
-              </Container>
-            </Card.Description>
+          </Container>
+          <Card.Description>
+            <Container textAlign="center">
+              <Label size="big" basic pointing='below'>
+                Extra Information 
+              </Label>
+              <h6 style={{paddingLeft: '30px', paddingRight: '30px'}}>
+                Due to the patient lake of sleep during the last two months and according 
+                to the tests he did it appeared to be a problem that needed an argunt  
+                Due to the patient lake of sleep during the last two months and according
+                Due to the patient lake of sleep during the last two months and according
+              </h6>
+            </Container>
+            <hr/>
+            <Container textAlign="center" style={{paddingBottom: '10px'}}>
+              <Label size="big" basic pointing='right'>
+                File
+              </Label>
+              <Button style={{marginLeft: '10px', marginTop: '10px'}} color="green" size="big"><Icon name="file"/> Download</Button>
+            </Container>
+            <hr/>
+          </Card.Description>
+          <Card.Meta>
+            <Container style={{marginBottom: '10px'}} textAlign="center">
+              <Button inverted color="red">Mark As Medical Error</Button>
+            </Container>
+          </Card.Meta>
         </Card>
       );
     })
