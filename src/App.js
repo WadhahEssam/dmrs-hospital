@@ -14,6 +14,7 @@ import LabTestForm from './components/pages/LabTestForm';
 import MedicalRecord from './components/pages/MedicalRecord'
 import RadioScanForm from './components/pages/RadioScanForm'
 import Surgeries from './components/pages/Surgeries'
+import AddSurgery from './components/pages/AddSurgery';
 
 class App extends Component {
 
@@ -50,7 +51,7 @@ class App extends Component {
               <Route path="/:id/medicalRecord" component={MedicalRecord} />
               <Route path="/radioScan" component={RadioScanForm} />
               <Route path="/surgeries" component={Surgeries} />
-
+              <Route path="/addSurgery" component={AddSurgery} />
             </Switch>
           </div>
         </BrowserRouter>
