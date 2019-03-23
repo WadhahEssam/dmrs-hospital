@@ -6,6 +6,13 @@ export default class Home extends Component {
   state = {
     id: 0
   }
+
+  // This method checks if the user has the permission to create a medical record.
+  canCreateMedicalRecord() {
+    let user = JSON.parse(localStorage.getItem('user'));
+    return (user.type.name !== "receptionist")
+  }
+
   render() {
     return (
       <div>
@@ -34,9 +41,11 @@ export default class Home extends Component {
                   <Grid.Column textAlign="center">
                     <Label>Create Medical Record</Label>
                       <br/>
-                    <Button                       
+                    <Button
                       style={{ position: 'relative', top: '10px' }}
-                      color='teal' content='Create' icon='add' labelPosition='left' />
+                      color='teal' content='Create' icon='add' labelPosition='left'
+                      disabled={this.canCreateMedicalRecord()}
+                    />
                   </Grid.Column>
                 </Grid>
                 <Divider vertical>Or</Divider>
