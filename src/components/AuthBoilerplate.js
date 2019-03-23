@@ -26,7 +26,7 @@ class AuthBoilerplate extends Component {
       
       userPermissionsArray.forEach((element, index) => {
         returnedArray.push(
-          <Label style={{marginTop: '3px'}} as='a' color={element.color} key={index}>
+          <Label style={{marginTop: '3px'}}  color={element.color} key={index}>
             {element.name}
           </Label>
         )

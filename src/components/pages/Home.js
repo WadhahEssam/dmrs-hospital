@@ -10,7 +10,7 @@ export default class Home extends Component {
   // This method checks if the user has the permission to create a medical record.
   canCreateMedicalRecord() {
     let user = JSON.parse(localStorage.getItem('user'));
-    return (user.type.name != "receptionist")
+    return (user.type.name !== "receptionist")
   }
 
   render() {
