@@ -2,15 +2,8 @@
 
 import React, { Component } from "react";
 import AuthBoilerplate from "../AuthBoilerplate";
-import {
-  Table,
-  Grid,
-  Segment,
-  Container,
-  Label,
-  Button
-} from "semantic-ui-react";
-import { withRouter } from 'react-router-dom'
+import { Card, Table, Grid, Segment, Container, Label, Button } from "semantic-ui-react";
+import { withRouter, Link } from 'react-router-dom'
 
 class MedicalRecord extends Component {
   state = {
@@ -18,6 +11,9 @@ class MedicalRecord extends Component {
   };
 
   render() {
+
+    const cardPlaceholderPath = '/card-placeholder.png'
+
     return (
       <AuthBoilerplate>
         <Container padded="true" style={{ padding: "20px" }}>
@@ -71,22 +67,23 @@ class MedicalRecord extends Component {
                 </Grid>
             </Segment>
             <Segment>
-                <Grid rows={5} divided>
-                    <Grid.Row>
-                        <Label>Diognosis</Label>
-                    </Grid.Row>
-                    <Grid.Row>
-                        <Label>Lab Tests</Label>
-                        <Button primary onClick={(e) => {this.props.history.push('/labTest')}}>Add new lab test</Button>
-                    </Grid.Row>
-                    <Grid.Row>
-                        <Label>Radiology Scans</Label>
-                        <Button primary onClick={(e) => {this.props.history.push('/radioScan')}}>Add new scan</Button>
-                    </Grid.Row>
-                    <Grid.Row>
-                        <Label>Medicen Subscriptions</Label>
-                    </Grid.Row>
-                </Grid>
+                <Card.Group>
+                    <Link style={{ padding: '10px' }} to={`/${this.state.id}/diagnoses`} >
+                        <Card color='orange' raised header='Diognosis' image={cardPlaceholderPath} />
+                    </Link>
+                    <Link style={{ padding: '10px' }} to={`/${this.state.id}/surgeries`} >
+                        <Card color='red' raised header='Surgeries' image={cardPlaceholderPath} />
+                    </Link>
+                    <Link style={{ padding: '10px' }} to={`/${this.state.id}/labTests`} >
+                        <Card color='green' raised header='Lab Tests' image={cardPlaceholderPath} />
+                    </Link>
+                    <Link style={{ padding: '10px' }} to={`/${this.state.id}/radiologyScans`} >
+                        <Card color='yellow' raised header='Radiology Scans' image={cardPlaceholderPath} />
+                    </Link>
+                    <Link style={{ padding: '10px' }} to={`/${this.state.id}/medicinePrescriptions`} >
+                        <Card color='blue' raised header='Medicine Prescriptions' image={cardPlaceholderPath} />
+                    </Link>
+                </Card.Group>
             </Segment>
         </Container>
       </AuthBoilerplate>
