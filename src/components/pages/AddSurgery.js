@@ -10,6 +10,8 @@ export default class AddSurgery extends Component {
     doctor: '',
     duration: '',
     extraInformation: '',
+    isCorrection: false,
+    correctionFor: '',
   }
 
   componentDidUpdate() {
@@ -72,7 +74,22 @@ export default class AddSurgery extends Component {
                 </Label>
                 <input id="file" hidden type="file" />
               </Form.Field>
-              <Button primary>Submit Report</Button>
+              <Form.Field>
+                <Form.Checkbox onChange={(e, {checked}) => {this.setState({isCorrection: checked})}} label="Is correction for another transation ?"/>
+              </Form.Field>
+              {
+                (this.state.isCorrection) ? 
+                (
+                  <Form.Input 
+                    label="Is Correction For"
+                    onChange={(e, {value}) => {this.setState({correctionFor: value})}}
+                    fluid 
+                    placeholder="eg. 0x0398eaf31ae2398111..."  
+                  />
+                ) : 
+                <div/>
+              }
+              <Button primary>Add Surgery</Button>
             </Form>
           </Segment>
         </Container>

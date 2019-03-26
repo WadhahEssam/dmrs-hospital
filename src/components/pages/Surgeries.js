@@ -74,7 +74,6 @@ export default class Home extends Component {
               <Label color='red' ribbon>Medical Error</Label> :
               <div/>
             }
-
             <Table celled>
                 <Table.Body>
                     <Table.Row>
