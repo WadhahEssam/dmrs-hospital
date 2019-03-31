@@ -6,6 +6,7 @@ import 'react-day-picker/lib/style.css';
 import contract from '../../medicalRecordsSystemContract';
 import { contractAddress } from '../../medicalRecordsSystemContract';
 import web3 from '../../web3';
+import { toast } from 'react-toastify';
 
 export default class Home extends Component {
   state = {
@@ -169,19 +170,35 @@ export default class Home extends Component {
     } else if (patient.emergencyContact == '') {
       this.setState({isError: true, errorMessage: 'Please select patient emergency contact'})
     } 
-    else {
+    if (true) {
       this.setState({isError: false,})
       console.log('every thing looks fine')
       console.log(this.state)
 
       const accounts = await web3.eth.getAccounts();
-
-      await contract.methods.createMedicalRecord(435108270, 'Wadhah Essam', '9871634389', '0551292881', 'male', 'o+', '044239448').send({ from: accounts[0], gas: '20000000' })
-      .then(() => {
-        console.log('worked fine');
+      await contract.methods.createMedicalRecord(patient.nationalID, patient.name, patient.birthDate.getTime(), patient.phoneNumber, patient.gender, patient.bloodType, patient.emergencyContact).send({ from: accounts[0], gas: '20000000' })
+      .then(async () => {
+        toast.success("Medical record created successfully", {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          width: 200,
+        });
+        this.props.history.push(`/${patient.nationalID}/medicalRecord`)
       })
       .catch((e) => {
-        e.message();
+        toast.error("Error : You have to make this transaction with a verified account", {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          width: 200,
+        });
       });
       let checkMedicalRecord = await contract.methods.checkMedicalRecord(435108270).call();
       console.log(checkMedicalRecord);

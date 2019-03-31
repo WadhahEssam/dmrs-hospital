@@ -15,6 +15,8 @@ import MedicalRecord from './components/pages/MedicalRecord'
 import RadioScanForm from './components/pages/RadioScanForm'
 import Surgeries from './components/pages/Surgeries'
 import AddSurgery from './components/pages/AddSurgery';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class App extends Component {
 
@@ -35,6 +37,7 @@ class App extends Component {
       <div>
         <BrowserRouter>
           <div>
+            <ToastContainer />
             <Switch>
               <Route path="/home" component={Home} />
               <Route path="/createMedicalRecord" component={CreateMedicalRecord} />
