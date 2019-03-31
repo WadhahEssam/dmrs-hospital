@@ -3,6 +3,9 @@ import AuthBoilerplate from '../AuthBoilerplate'
 import { Segment, Container, Form, Message, Label, Button, Radio } from 'semantic-ui-react'
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
+import contract from '../../medicalRecordsSystemContract';
+import { contractAddress } from '../../medicalRecordsSystemContract';
+import web3 from '../../web3';
 
 export default class Home extends Component {
   state = {
@@ -151,7 +154,7 @@ export default class Home extends Component {
     )
   }
 
-  submitForm = () => {
+  submitForm = async () => {
     const patient = this.state;
     if (patient.gender == '') {
       this.setState({isError: true, errorMessage: 'Please select patient gender.'})
@@ -170,6 +173,18 @@ export default class Home extends Component {
       this.setState({isError: false,})
       console.log('every thing looks fine')
       console.log(this.state)
+
+      const accounts = await web3.eth.getAccounts();
+
+      await contract.methods.createMedicalRecord(435108270, 'Wadhah Essam', '9871634389', '0551292881', 'male', 'o+', '044239448').send({ from: accounts[0], gas: '20000000' })
+      .then(() => {
+        console.log('worked fine');
+      })
+      .catch((e) => {
+        e.message();
+      });
+      let checkMedicalRecord = await contract.methods.checkMedicalRecord(435108270).call();
+      console.log(checkMedicalRecord);
     }
   }
 

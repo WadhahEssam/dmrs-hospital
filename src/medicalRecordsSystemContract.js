@@ -36,6 +36,44 @@ const contractABI = [
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "nationalID",
+				"type": "uint256"
+			},
+			{
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"name": "dateI",
+				"type": "uint256"
+			},
+			{
+				"name": "phoneNumberI",
+				"type": "string"
+			},
+			{
+				"name": "genderI",
+				"type": "string"
+			},
+			{
+				"name": "bloodTypeI",
+				"type": "string"
+			},
+			{
+				"name": "emergencyContactI",
+				"type": "string"
+			}
+		],
+		"name": "createMedicalRecord",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [
 			{
@@ -107,44 +145,6 @@ const contractABI = [
 		],
 		"payable": false,
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "nationalID",
-				"type": "uint256"
-			},
-			{
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"name": "dateI",
-				"type": "string"
-			},
-			{
-				"name": "phoneNumberI",
-				"type": "string"
-			},
-			{
-				"name": "genderI",
-				"type": "string"
-			},
-			{
-				"name": "bloodTypeI",
-				"type": "string"
-			},
-			{
-				"name": "emergencyContantI",
-				"type": "string"
-			}
-		],
-		"name": "createMedicalRecord",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{

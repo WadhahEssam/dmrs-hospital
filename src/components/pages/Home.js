@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import AuthBoilerplate from '../AuthBoilerplate'
 import { Segment, Input, Divider, Button, Container, Grid, Message, Label } from 'semantic-ui-react'
+import contract from '../../medicalRecordsSystemContract';
+import { contractAddress } from '../../medicalRecordsSystemContract';
+import web3 from '../../web3';
 
 export default class Home extends Component {
   state = {
@@ -45,6 +48,7 @@ export default class Home extends Component {
                       style={{ position: 'relative', top: '10px' }}
                       color='teal' content='Create' icon='add' labelPosition='left'
                       disabled={this.canCreateMedicalRecord()}
+                      onClick={() => {this.props.history.push('/createMedicalRecord')}}
                     />
                   </Grid.Column>
                 </Grid>
