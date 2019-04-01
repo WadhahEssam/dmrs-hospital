@@ -4,7 +4,6 @@ import { Segment, Container, Form, Message, Label, Button, Radio } from 'semanti
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import contract from '../../medicalRecordsSystemContract';
-import { contractAddress } from '../../medicalRecordsSystemContract';
 import web3 from '../../web3';
 import { toast } from 'react-toastify';
 
@@ -80,7 +79,7 @@ export default class Home extends Component {
                     />
                   </Form.Group>
                   <Form.Group inline style={{marginTop: '25px'}}>
-                    <label style={{position: 'relative', bottom: '5px'}}>Quantity</label>
+                    <label style={{position: 'relative', bottom: '5px'}}>Blood Type</label>
                     <Form.Field
                       control={Radio}
                       label='A+'
@@ -170,7 +169,7 @@ export default class Home extends Component {
     } else if (patient.emergencyContact == '') {
       this.setState({isError: true, errorMessage: 'Please select patient emergency contact'})
     } 
-    if (true) {
+    else {
       this.setState({isError: false,})
       console.log('every thing looks fine')
       console.log(this.state)

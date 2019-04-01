@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import AuthBoilerplate from '../AuthBoilerplate'
 import { Segment, Input, Divider, Button, Container, Grid, Message, Label } from 'semantic-ui-react'
 import contract from '../../medicalRecordsSystemContract';
-import { contractAddress } from '../../medicalRecordsSystemContract';
-import web3 from '../../web3';
+import { toast } from 'react-toastify';
 
 export default class Home extends Component {
   state = {
@@ -32,7 +31,7 @@ export default class Home extends Component {
                     <br/>
                     <Input
                       style={{ position: 'relative', right: '40px', top: '10px' }}
-                      action={{ color: 'blue', content: 'Open', onClick: (e) => {this.props.history.push(`/${this.state.id}/medicalRecord`)}}}
+                      action={{ color: 'blue', content: 'Open', onClick: this.openMedicalRecord }}
                       icon='user'
                       iconPosition='left'
                       placeholder='National ID'
@@ -59,4 +58,26 @@ export default class Home extends Component {
       </div>
     )
   }
+
+  openMedicalRecord = async () => {
+    await contract.methods.checkMedicalRecord(this.state.id).call()
+    .then((response) => {
+      console.log(response);
+      if (response == false) {
+        toast.error("There is no account with this National ID", {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          width: 200,
+        });
+      } else {
+        this.props.history.push(`/${this.state.id}/medicalRecord`)
+      }
+    })
+    // await contract.methods.getMedicalRecord(425990389).call();
+  }
+
 }

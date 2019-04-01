@@ -14,14 +14,33 @@ import {
   Label
 } from "semantic-ui-react";
 import { withRouter, Link } from "react-router-dom";
+import contract from '../../medicalRecordsSystemContract';
+import medicalRecordABI from '../../medicalRecord';
+import web3 from '../../web3';
 
 class MedicalRecord extends Component {
     state = {
-        id: 0
+        id: 0,
+        nationalID: '',
+        dateOfBirth: (new Date()).getTime(),
+        phoneNumber: '',
+        gender: '',
+        bloodType: '',
+        emergencyContact: '',
+        hospitalName: '',
+        name: '',
+        blockchainAdderss: '',
     };
 
-    render() {
+    componentWillMount() {
+        this.fetchMedicalRecordInformation();
+    }
 
+    componentDidUpdate() {
+        console.log(this.state);
+    }
+
+    render() {
         const cardPlaceholderPath = '/card-placeholder.png'
         const padding = "20px"
         
@@ -29,7 +48,7 @@ class MedicalRecord extends Component {
             <AuthBoilerplate>
                 <Container padded="true" style={{ padding: "20px" }}>
                     <Segment>
-                        <h3>Someone's Medical Record</h3>
+                        <h3>{this.state.name}'s Medical Record</h3>
                     </Segment>
 
                     <Segment>
@@ -39,27 +58,27 @@ class MedicalRecord extends Component {
                                     <Table.Body>
                                         <Table.Row>
                                             <Table.Cell active>Name</Table.Cell>
-                                            <Table.Cell>Cell</Table.Cell>
+                                            <Table.Cell>{this.state.name}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
-                                            <Table.Cell active>DOB</Table.Cell>
-                                            <Table.Cell>Cell</Table.Cell>
+                                            <Table.Cell active>Date of Birth</Table.Cell>
+                                            <Table.Cell>{this.state.dateOfBirth}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                             <Table.Cell active>Phone</Table.Cell>
-                                            <Table.Cell>Cell</Table.Cell>
+                                            <Table.Cell>{this.state.phoneNumber}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                             <Table.Cell active>Gender</Table.Cell>
-                                            <Table.Cell>Cell</Table.Cell>
+                                            <Table.Cell>{this.state.gender}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                             <Table.Cell active>Blood Type</Table.Cell>
-                                            <Table.Cell>Cell</Table.Cell>
+                                            <Table.Cell>{this.state.bloodType}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                             <Table.Cell active>National ID</Table.Cell>
-                                            <Table.Cell>Cell</Table.Cell>
+                                            <Table.Cell>{this.state.nationalID}</Table.Cell>
                                         </Table.Row>
                                     </Table.Body>
                                 </Table>
@@ -70,15 +89,15 @@ class MedicalRecord extends Component {
                                     <Table.Body>
                                         <Table.Row>
                                             <Table.Cell active>Hospital Name</Table.Cell>
-                                            <Table.Cell>Cell</Table.Cell>
+                                            <Table.Cell>{this.state.hospitalName}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
-                                            <Table.Cell active>Created At</Table.Cell>
-                                            <Table.Cell>Cell</Table.Cell>
+                                            <Table.Cell active>Blockchain Address</Table.Cell>
+                                            <Table.Cell>{this.state.blockchainAdderss}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                             <Table.Cell active>Emergency Contact</Table.Cell>
-                                            <Table.Cell>Cell</Table.Cell>
+                                            <Table.Cell>{this.state.emergencyContact}</Table.Cell>
                                         </Table.Row>
                                     </Table.Body>
                                 </Table>
@@ -170,6 +189,34 @@ class MedicalRecord extends Component {
                 </Container>
             </AuthBoilerplate>
         );
+    }
+
+    fetchMedicalRecordInformation = async () => {
+        const medicalRecordID = this.props.match.params.id;
+        const medicalRecordAddress = await contract.methods.getMedicalRecord(medicalRecordID).call()
+        let newMedicalRecordsSystemContract = await new web3.eth.Contract(
+            medicalRecordABI, 
+            medicalRecordAddress
+          ); 
+        const name = await newMedicalRecordsSystemContract.methods.name().call();
+        const nationalID = await newMedicalRecordsSystemContract.methods.nationalID().call();
+        const dateOfBirth = await newMedicalRecordsSystemContract.methods.dateOfBirth().call()
+        const phoneNumber = await newMedicalRecordsSystemContract.methods.phoneNumber().call();
+        const gender = await newMedicalRecordsSystemContract.methods.gender().call();
+        const bloodType = await newMedicalRecordsSystemContract.methods.bloodType().call();
+        const emergencyContact = await newMedicalRecordsSystemContract.methods.emergencyContacts(0).call();
+        const hospitalName = await newMedicalRecordsSystemContract.methods.hospitalName().call();
+        this.setState({
+            name,
+            nationalID,
+            dateOfBirth,
+            phoneNumber,
+            gender,
+            bloodType,
+            emergencyContact,
+            hospitalName,
+            blockchainAdderss: medicalRecordAddress.substring(0,20) + '...'
+        });
     }
 }
 
