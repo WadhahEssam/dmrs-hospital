@@ -87,7 +87,7 @@ class MedicalRecord extends Component {
                     </Segment>
                     <Segment>
                         <Card.Group centered>
-                        <Link style={{ padding }} to={`/${this.state.id}/diagnoses`}>
+                        <Link style={{ padding }} to={`/${this.state.id}/medicalRecord/diagnoses`}>
                             <Card color="orange" raised>
                             <div style={{ height: "242px" }}>
                                 <Image
