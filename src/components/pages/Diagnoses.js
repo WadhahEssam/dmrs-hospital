@@ -144,6 +144,7 @@ class Diagnoses extends Component {
           <Container padded="true" style={{ padding: "20px" }}>
             <Segment>
               <h3>diagnoses for someone</h3>
+              <Button floated="right" primary onClick={() => {this.props.history.push(`/${this.state.id}/medicalRecord/diagnoses/new`)}}>Add New Diagnosis</Button>
             </Segment>
             <br />
             <Card.Group>{diagnosesCards}</Card.Group>
