@@ -17,7 +17,7 @@ import { withRouter, Link } from "react-router-dom";
 
 class MedicalRecord extends Component {
     state = {
-        id: 0
+        id: this.props.match.params.id
     };
 
     render() {
