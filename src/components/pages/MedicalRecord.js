@@ -18,6 +18,10 @@ class MedicalRecord extends Component {
         id: 0
     };
 
+    componentDidMount(){
+        console.log(this.props.match.params.id)
+    }
+
     render() {
 
         const cardPlaceholderPath = '/card-placeholder.png'
