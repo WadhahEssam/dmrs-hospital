@@ -16,6 +16,7 @@ import RadioScanForm from './components/pages/RadioScanForm'
 import Surgeries from './components/pages/Surgeries'
 import AddSurgery from './components/pages/AddSurgery';
 import { ToastContainer, toast } from 'react-toastify';
+import Diagnoses from './components/pages/Diagnoses'
 import 'react-toastify/dist/ReactToastify.css';
 
 class App extends Component {
@@ -51,7 +52,8 @@ class App extends Component {
                 )
               )}/>
               <Route path="/labTest" component={LabTestForm} />
-              <Route path="/:id/medicalRecord" component={MedicalRecord} />
+              <Route exact path="/:id/medicalRecord" component={MedicalRecord} />
+              <Route path="/:id/medicalRecord/diagnoses" component={Diagnoses} />
               <Route path="/radioScan" component={RadioScanForm} />
               <Route path="/surgeries" component={Surgeries} />
               <Route path="/addSurgery" component={AddSurgery} />
