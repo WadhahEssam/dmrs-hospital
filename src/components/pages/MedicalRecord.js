@@ -1,4 +1,6 @@
 // This component shows the medical record of the selected patient.
+// As soon as this component mounts, a prop id will be avsailable in
+// this.props.match.params.id
 
 import React, { Component } from "react";
 import AuthBoilerplate from "../AuthBoilerplate";
@@ -17,10 +19,6 @@ class MedicalRecord extends Component {
     state = {
         id: 0
     };
-
-    componentDidMount(){
-        console.log(this.props.match.params.id)
-    }
 
     render() {
 
