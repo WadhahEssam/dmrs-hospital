@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import AuthBoilerplate from '../AuthBoilerplate'
 import { Segment, Input, Divider, Button, Container, Grid, Message, Label } from 'semantic-ui-react'
 import contract from '../../medicalRecordsSystemContract';
-import { contractAddress } from '../../medicalRecordsSystemContract';
-import web3 from '../../web3';
 import { toast } from 'react-toastify';
 
 export default class Home extends Component {

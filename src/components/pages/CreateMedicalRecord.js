@@ -4,7 +4,6 @@ import { Segment, Container, Form, Message, Label, Button, Radio } from 'semanti
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import contract from '../../medicalRecordsSystemContract';
-import { contractAddress } from '../../medicalRecordsSystemContract';
 import web3 from '../../web3';
 import { toast } from 'react-toastify';
 
