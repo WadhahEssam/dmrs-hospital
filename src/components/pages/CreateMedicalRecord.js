@@ -174,7 +174,8 @@ export default class Home extends Component {
       console.log(this.state)
 
       const accounts = await web3.eth.getAccounts();
-      await contract.methods.createMedicalRecord(patient.nationalID, patient.name, patient.birthDate.getTime(), patient.phoneNumber, patient.gender, patient.bloodType, patient.emergencyContact).send({ from: accounts[0], gas: '20000000' })
+      await contract.methods.createMedicalRecord(patient.nationalID, patient.name, patient.birthDate.getTime(), patient.phoneNumber, patient.gender, patient.bloodType, patient.emergencyContact)
+      .send({ from: accounts[0], gas: '20000000' })
       .then(async () => {
         toast.success("Medical record created successfully", {
           position: "bottom-center",

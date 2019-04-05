@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { Icon, Label, Segment, Button, Container, Form, Message } from 'semantic-ui-react'
 import AuthBoilerplate from '../AuthBoilerplate'
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import contract from '../../medicalRecordsSystemContract';
+import web3 from '../../web3';
+import medicalRecordABI from '../../medicalRecord';
+import { toast } from 'react-toastify';
 
 export default class AddSurgery extends Component {
   state = {
@@ -14,10 +18,6 @@ export default class AddSurgery extends Component {
     correctionFor: '',
     isError: false,
     errorMessage: '',
-  }
-
-  componentDidUpdate() {
-    console.log(this.state);
   }
 
   render() {
@@ -73,14 +73,10 @@ export default class AddSurgery extends Component {
                 />
               </Form.Field>
               <Form.Field>
-                <Label width="4" as="label" htmlFor="file" size="big">
-                  <Icon name="file" />
-                  Click here to attach an image
-                </Label>
-                <input id="file" hidden type="file" />
-              </Form.Field>
-              <Form.Field>
-                <Form.Checkbox onChange={(e, {checked}) => {this.setState({isCorrection: checked})}} label="Is correction for another transation ?"/>
+                <Form.Checkbox 
+                  onChange={(e, {checked}) => {this.setState({isCorrection: checked})}} 
+                  label="Is correction for another transation ?"/
+                >
               </Form.Field>
               {
                 (this.state.isCorrection) ? 
@@ -106,7 +102,7 @@ export default class AddSurgery extends Component {
     this.setState({ date: day });
   }
 
-  addNewSurgery = () => {
+  addNewSurgery = async () => {
     const newSurgery = this.state;
     if (newSurgery.date == '') {
       this.setState({isError: true, errorMessage: 'please select a date for the surgey'});
@@ -120,11 +116,44 @@ export default class AddSurgery extends Component {
       this.setState({isError: true, errorMessage: 'please insert the id of the corrected surgery transaction'});
     } else {
       this.setState({isError: false});
-    }
+      const accounts = await web3.eth.getAccounts();
+      const medicalRecordID = this.props.match.params.id;
+      const medicalRecordAddress = await contract.methods.getMedicalRecord(medicalRecordID).call()
+      let medicalRecordContract = await new web3.eth.Contract(
+          medicalRecordABI, 
+          medicalRecordAddress
+        ); 
+      let isCorrectionFor = '';
+      if (newSurgery.isCorrection == true) {
+        isCorrectionFor = newSurgery.correctionFor;
+      }
+      await medicalRecordContract.methods.addSurgery('King Khaled Hospital', newSurgery.surgeryName, newSurgery.doctor, newSurgery.duration, 'emptyFileHash', newSurgery.extraInformation, isCorrectionFor)
+      .send({ from: accounts[0], gas: '200000000' })
+      .then(() => {
+        toast.success("New surgery added successfully", {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          width: 200,
+        });
+      })
+      .catch(() => {
+        toast.error("Error : Something worng happened", {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          width: 200,
+        });
+      })
 
-    console.log('test');
+      this.props.history.replace(`surgeries`);
 
-    
+    }    
   }
-
 }
