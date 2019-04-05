@@ -65,9 +65,9 @@ export default class Home extends Component {
       },
     ]
 
-    let surgeriesCards = surgeries.map((surgery) => {
+    let surgeriesCards = surgeries.map((surgery, index) => {
       return (
-        <Card fluid color='red' header='Option 1' style={{marginTop: "30px", marginBottom: "30px"}}>
+        <Card key={index+1} fluid color='red' style={{marginTop: "30px", marginBottom: "30px"}}>
           <Container style={{padding: '10px'}}>
             {
               (surgery.isMedicalError) ? 
@@ -132,7 +132,7 @@ export default class Home extends Component {
         <AuthBoilerplate history={this.props.history}>
           <Container padded="true" style={{ padding: "20px" }}>
             <Segment>
-              <h3>Surgeries for someone</h3>
+              <h3>Surgeries for someone</h3> 
             </Segment>
             <br/>
             <Card.Group>

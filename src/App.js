@@ -53,7 +53,7 @@ class App extends Component {
               <Route path="/labTest" component={LabTestForm} />
               <Route path="/:id/medicalRecord" component={MedicalRecord} />
               <Route path="/radioScan" component={RadioScanForm} />
-              <Route path="/surgeries" component={Surgeries} />
+              <Route path="/:id/surgeries" component={Surgeries} />
               <Route path="/addSurgery" component={AddSurgery} />
             </Switch>
           </div>

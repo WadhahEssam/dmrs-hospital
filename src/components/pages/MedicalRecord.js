@@ -32,6 +32,7 @@ class MedicalRecord extends Component {
 
     componentWillMount() {
         this.fetchMedicalRecordInformation();
+        this.setState({id: this.props.match.params.id})
     }
 
     componentDidUpdate() {
