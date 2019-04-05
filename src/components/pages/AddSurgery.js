@@ -73,13 +73,6 @@ export default class AddSurgery extends Component {
                 />
               </Form.Field>
               <Form.Field>
-                <Label width="4" as="label" htmlFor="file" size="big">
-                  <Icon name="file" />
-                  Click here to attach an image
-                </Label>
-                <input id="file" hidden type="file" />
-              </Form.Field>
-              <Form.Field>
                 <Form.Checkbox 
                   onChange={(e, {checked}) => {this.setState({isCorrection: checked})}} 
                   label="Is correction for another transation ?"/
