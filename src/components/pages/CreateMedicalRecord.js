@@ -27,7 +27,6 @@ export default class Home extends Component {
       { key: 'f', text: 'Female', value: 'female' },
     ]
     const { bloodType } = this.state
-    const { birthDate } = this.state;
 
     return (
       <div>
