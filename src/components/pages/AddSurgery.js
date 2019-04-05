@@ -12,6 +12,8 @@ export default class AddSurgery extends Component {
     extraInformation: '',
     isCorrection: false,
     correctionFor: '',
+    isError: false,
+    errorMessage: '',
   }
 
   componentDidUpdate() {
@@ -25,6 +27,9 @@ export default class AddSurgery extends Component {
           <Segment>
             <h3>Add New Surgery</h3>
             <Message warning>Be sure of the information you put, because you will not be able to modify it later.</Message>
+            {
+              (this.state.isError) ? <Message error>{this.state.errorMessage}</Message> : <div/>
+            }
           </Segment>
           <Segment fluid='true'>
             <Form fluid='true'>
@@ -89,7 +94,7 @@ export default class AddSurgery extends Component {
                 ) : 
                 <div/>
               }
-              <Button primary>Add Surgery</Button>
+              <Button primary onClick={this.addNewSurgery}>Add Surgery</Button>
             </Form>
           </Segment>
         </Container>
@@ -99,6 +104,27 @@ export default class AddSurgery extends Component {
 
   handleDayChange = (day) => {
     this.setState({ date: day });
+  }
+
+  addNewSurgery = () => {
+    const newSurgery = this.state;
+    if (newSurgery.date == '') {
+      this.setState({isError: true, errorMessage: 'please select a date for the surgey'});
+    } else if (newSurgery.doctor == '') {
+      this.setState({isError: true, errorMessage: 'please insert the doctor name'});
+    } else if (newSurgery.duration == '') {
+      this.setState({isError: true, errorMessage: 'please insert the duration of the surgery'});
+    } else if (newSurgery.surgeryName == '') {
+      this.setState({isError: true, errorMessage: 'please insert the name of the surgery'});
+    } else if (newSurgery.isCorrection == true && newSurgery.correctionFor == '') {
+      this.setState({isError: true, errorMessage: 'please insert the id of the corrected surgery transaction'});
+    } else {
+      this.setState({isError: false});
+    }
+
+    console.log('test');
+
+    
   }
 
 }
