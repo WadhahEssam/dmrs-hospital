@@ -18,15 +18,15 @@ export default class AddSurgery extends Component {
     correctionFor: '',
     isError: false,
     errorMessage: '',
-    surgeries: [],
+    transactions: [],
     erroneousTransactions: [],
   }
 
   componentDidMount() {
-    this.getSurgeries();
+    this.getTransactions();
   }
 
-  getSurgeries = async () => {
+  getTransactions = async () => {
     const accounts = await web3.eth.getAccounts();
     const medicalRecordID = this.props.match.params.id;
     const medicalRecordAddress = await contract.methods.getMedicalRecord(medicalRecordID).call()
@@ -35,22 +35,25 @@ export default class AddSurgery extends Component {
         medicalRecordAddress
       ); 
     
-    let surgeriesList = [];
-    let surgeriesCount = await medicalRecordContract.methods.surgeriesCount().call();
-    if (surgeriesCount == 0) {
-      this.setState({noSurgeries: true});
+    let transactionsList = [];
+      // mark for reusability 
+    let transactionsCount = await medicalRecordContract.methods.surgeriesCount().call();
+    if (transactionsCount == 0) {
+      this.setState({noTransactions: true});
     }
-    for (let i = 0; i < surgeriesCount; i++) {
-      surgeriesList.push(await medicalRecordContract.methods.surgeries(i).call());
+    for (let i = 0; i < transactionsCount; i++) {
+        // mark for reusability 
+      let newTransaction = await medicalRecordContract.methods.surgeries(i).call();
+      transactionsList.push(newTransaction);
     }
-    this.setState({surgeries: surgeriesList});
+    this.setState({transactions: transactionsList});
     this.filterCorrectedTransactions();
   }
 
   // checkes if the transaction is correted or not
   filterCorrectedTransactions = () => {
     let erroneousTransactions = [];
-    let transactions = this.state.surgeries;
+    let transactions = this.state.transactions;
     for(let i = 0; i < transactions.length; i++) {
       if (transactions[i].isCorrectionFor !== '' && transactions[i].isCorrectionFor !== 'true') {
         erroneousTransactions.push({id: transactions[i].isCorrectionFor, correctedBy: transactions[i].id});
@@ -70,18 +73,17 @@ export default class AddSurgery extends Component {
     return {result: false};
   }
 
-
   render() {
-    console.log(this.state.erroneousTransactions);
+    // filtering the transactions to eleminate the erroneous ones
     let transactions = [];
-    let surgeries = this.state.surgeries;
-    for (let i = 0; i < surgeries.length; i++) {
+    let allTransactions = this.state.transactions;
+    for (let i = 0; i < allTransactions.length; i++) {
       // adding transactions that are not marked as medical errors and not correted
-      if (surgeries[i].isCorrectionFor == '' && this.isCorrected(surgeries[i].id).result == false) {
+      if (allTransactions[i].isCorrectionFor == '' && this.isCorrected(allTransactions[i].id).result == false) {
         transactions.push({
           key: i,
-          text: `ID: ${surgeries[i].id} , Name: ${surgeries[i].surgeryName}`,
-          value: surgeries[i].id
+          text: `ID: ${allTransactions[i].id} , Name: ${allTransactions[i].surgeryName}`,
+          value: allTransactions[i].id
         })
       }
     }
@@ -167,7 +169,7 @@ export default class AddSurgery extends Component {
                 ) : 
                 <div/>
               }
-              <Button primary onClick={this.addNewSurgery}>Add Surgery</Button>
+              <Button primary onClick={this.addNewTransaction}>Add Surgery</Button>
             </Form>
           </Segment>
         </Container>
@@ -179,18 +181,18 @@ export default class AddSurgery extends Component {
     this.setState({ date: day });
   }
 
-  addNewSurgery = async () => {
-    const newSurgery = this.state;
-    if (newSurgery.date == '') {
+  addNewTransaction = async () => {
+    const newTransaction = this.state;
+    if (newTransaction.date == '') {
       this.setState({isError: true, errorMessage: 'please select a date for the surgey'});
-    } else if (newSurgery.doctor == '') {
+    } else if (newTransaction.doctor == '') {
       this.setState({isError: true, errorMessage: 'please insert the doctor name'});
-    } else if (newSurgery.duration == '') {
+    } else if (newTransaction.duration == '') {
       this.setState({isError: true, errorMessage: 'please insert the duration of the surgery'});
-    } else if (newSurgery.surgeryName == '') {
+    } else if (newTransaction.surgeryName == '') {
       this.setState({isError: true, errorMessage: 'please insert the name of the surgery'});
-    } else if (newSurgery.isCorrection == true && newSurgery.correctionFor == '') {
-      this.setState({isError: true, errorMessage: 'please insert the id of the corrected surgery transaction'});
+    } else if (newTransaction.isCorrection == true && newTransaction.correctionFor == '') {
+      this.setState({isError: true, errorMessage: 'please select the erroneous transaction'});
     } else {
       this.setState({isError: false});
       const accounts = await web3.eth.getAccounts();
@@ -201,10 +203,10 @@ export default class AddSurgery extends Component {
           medicalRecordAddress
         ); 
       let isCorrectionFor = '';
-      if (newSurgery.isCorrection == true) {
-        isCorrectionFor = newSurgery.correctionFor;
+      if (newTransaction.isCorrection == true) {
+        isCorrectionFor = newTransaction.correctionFor;
       }
-      await medicalRecordContract.methods.addSurgery('King Khaled Hospital', newSurgery.surgeryName, newSurgery.doctor, newSurgery.duration, 'emptyFileHash', newSurgery.extraInformation, isCorrectionFor)
+      await medicalRecordContract.methods.addSurgery('King Khaled Hospital', newTransaction.surgeryName, newTransaction.doctor, newTransaction.duration, 'emptyFileHash', newTransaction.extraInformation, isCorrectionFor)
       .send({ from: accounts[0], gas: '200000000' })
       .then(() => {
         toast.success("New surgery added successfully", {
