@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Icon, Label, Segment, Button, Container, Form, Message } from 'semantic-ui-react'
+import { Icon, Label, Segment, Button, Container, Form, Message, Dropdown } from 'semantic-ui-react'
 import AuthBoilerplate from '../AuthBoilerplate'
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import contract from '../../medicalRecordsSystemContract';
@@ -18,9 +18,74 @@ export default class AddSurgery extends Component {
     correctionFor: '',
     isError: false,
     errorMessage: '',
+    surgeries: [],
+    erroneousTransactions: [],
   }
 
+  componentDidMount() {
+    this.getSurgeries();
+  }
+
+  getSurgeries = async () => {
+    const accounts = await web3.eth.getAccounts();
+    const medicalRecordID = this.props.match.params.id;
+    const medicalRecordAddress = await contract.methods.getMedicalRecord(medicalRecordID).call()
+    let medicalRecordContract = await new web3.eth.Contract(
+        medicalRecordABI, 
+        medicalRecordAddress
+      ); 
+    
+    let surgeriesList = [];
+    let surgeriesCount = await medicalRecordContract.methods.surgeriesCount().call();
+    if (surgeriesCount == 0) {
+      this.setState({noSurgeries: true});
+    }
+    for (let i = 0; i < surgeriesCount; i++) {
+      surgeriesList.push(await medicalRecordContract.methods.surgeries(i).call());
+    }
+    this.setState({surgeries: surgeriesList});
+    this.filterCorrectedTransactions();
+  }
+
+  // checkes if the transaction is correted or not
+  filterCorrectedTransactions = () => {
+    let erroneousTransactions = [];
+    let transactions = this.state.surgeries;
+    for(let i = 0; i < transactions.length; i++) {
+      if (transactions[i].isCorrectionFor !== '' && transactions[i].isCorrectionFor !== 'true') {
+        erroneousTransactions.push({id: transactions[i].isCorrectionFor, correctedBy: transactions[i].id});
+      }
+    }
+    this.setState({erroneousTransactions});
+  }
+
+  // check by id if specific transaction is corrected
+  isCorrected = (id) => {
+    let erroneousTransactions = this.state.erroneousTransactions;
+    for (let i = 0; i < erroneousTransactions.length; i++) {
+      if (erroneousTransactions[i].id == id) {
+        return {result: true, correctedBy: erroneousTransactions[i].correctedBy};
+      }
+    }
+    return {result: false};
+  }
+
+
   render() {
+    console.log(this.state.erroneousTransactions);
+    let transactions = [];
+    let surgeries = this.state.surgeries;
+    for (let i = 0; i < surgeries.length; i++) {
+      // adding transactions that are not marked as medical errors and not correted
+      if (surgeries[i].isCorrectionFor == '' && this.isCorrected(surgeries[i].id).result == false) {
+        transactions.push({
+          key: i,
+          text: `ID: ${surgeries[i].id} , Name: ${surgeries[i].surgeryName}`,
+          value: surgeries[i].id
+        })
+      }
+    }
+
     return (
       <AuthBoilerplate history={this.props.history}>
         <Container padded="true" style={{ padding: '20px' }} fluid>
@@ -81,11 +146,13 @@ export default class AddSurgery extends Component {
               {
                 (this.state.isCorrection) ? 
                 (
-                  <Form.Input 
-                    label="Is Correction For"
-                    onChange={(e, {value}) => {this.setState({correctionFor: value})}}
-                    fluid 
-                    placeholder="eg. 0x0398eaf31ae2398111..."  
+                  <Dropdown
+                    placeholder='Select the erroneous transaction'
+                    fluid
+                    selection
+                    options={transactions}
+                    style={{marginBottom: '15px'}}
+                    onChange={(e, data) => {console.log(this.state); this.setState({correctionFor: data.value})}}
                   />
                 ) : 
                 <div/>

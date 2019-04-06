@@ -22,6 +22,7 @@ export default class Home extends Component {
     errorMessage: '',
     noSurgeries: null,
     surgeries: [],
+    erroneousTransactions: [], // this represent the ids' of the transactions that has been corrected [{id: 1, corretedBy: 5}, {id: 2, corretedBy: 6}]
   }
 
   componentDidMount() {
@@ -43,24 +44,61 @@ export default class Home extends Component {
       this.setState({noSurgeries: true});
     }
     for (let i = 0; i < surgeriesCount; i++) {
-      surgeriesList.push(await medicalRecordContract.methods.surgeries(i).call());
+      let newSurgery = await medicalRecordContract.methods.surgeries(i).call();
+      surgeriesList.push(newSurgery);
     }
     this.setState({surgeries: surgeriesList});
+    this.filterCorrectedTransactions();
     console.log(surgeriesList);
+  }
+
+  // checkes if the transaction is correted or not
+  filterCorrectedTransactions = () => {
+    let erroneousTransactions = [];
+    let transactions = this.state.surgeries;
+    for(let i = 0; i < transactions.length; i++) {
+      if (transactions[i].isCorrectionFor !== '' && transactions[i].isCorrectionFor !== 'true') {
+        erroneousTransactions.push({id: transactions[i].isCorrectionFor, correctedBy: transactions[i].id});
+      }
+    }
+    this.setState({erroneousTransactions});
+  }
+
+  // check by id if specific transaction is corrected
+  isCorrected = (id) => {
+    let erroneousTransactions = this.state.erroneousTransactions;
+    for (let i = 0; i < erroneousTransactions.length; i++) {
+      if (erroneousTransactions[i].id == id) {
+        return {result: true, correctedBy: erroneousTransactions[i].correctedBy};
+      }
+    }
+    return {result: false};
   }
 
   render() {
     const { surgeries } = this.state;
 
     let surgeriesCards = surgeries.slice(0).reverse().map((surgery, index) => {
+      let colorOfCard = 'grey';
+      if (surgery.isCorrectionFor == 'true' || this.isCorrected(surgery.id).result) {
+        colorOfCard = 'red';
+      } 
+      let label = null;
+      if (this.isCorrected(surgery.id).result) {
+        label = <Label color='red' ribbon>Medical Error : has been corrected by surgery with ID ( {this.isCorrected(surgery.id).correctedBy} )</Label> 
+      } else if (surgery.isCorrectionFor == 'true') {
+        label = <Label color='red' ribbon>Medical Error</Label> 
+      } else if (surgery.isCorrectionFor !== '') {
+        label = <Label color='blue' ribbon>Is Correction For Surgery With ID ( {surgery.isCorrectionFor} ) </Label> 
+      }
+
+
+      console.log(this.isCorrected(6).result);
+
       return (
-        <Card key={index+1} fluid color='red' style={{marginTop: "30px", marginBottom: "30px"}}>
+        <Card key={index+1} fluid color={colorOfCard} style={{marginTop: "30px", marginBottom: "30px"}}>
           <Container style={{padding: '10px'}}>
-            {
-              (surgery.isCorrectionFor !== "") ? 
-              <Label color='red' ribbon>Medical Error</Label> :
-              <div/>
-            }
+            {label}
             <Table celled>
                 <Table.Body>
                     <Table.Row>
@@ -106,7 +144,7 @@ export default class Home extends Component {
             <Container style={{marginBottom: '10px'}} textAlign="center">
               <Button 
                 inverted 
-                disabled={(surgery.isCorrectionFor == 'true' || surgery.isCorrectionFor !== '')}
+                disabled={(surgery.isCorrectionFor == 'true' || this.isCorrected(surgery.id).result)}
                 color="red"
                 onClick={() => {this.markAsMedicalError(surgery.id)}}>
                 Mark As Medical Error
