@@ -83,6 +83,7 @@ export default class Home extends Component {
       if (surgery.isCorrectionFor == 'true' || this.isCorrected(surgery.id).result) {
         colorOfCard = 'red';
       } 
+      
       let label = null;
       if (this.isCorrected(surgery.id).result) {
         label = <Label color='red' ribbon>Medical Error : has been corrected by surgery with ID ( {this.isCorrected(surgery.id).correctedBy} )</Label> 
@@ -161,16 +162,27 @@ export default class Home extends Component {
           <Container padded="true" style={{ padding: "20px" }}>
             <Segment>
               <h3 style={{display: 'inline'}}>Surgeries for someone</h3> 
-              <Button 
-                icon
-                labelPosition="left"
-                color="green" 
-                style={{position: 'absolute', right: '20px'}}
-                onClick={() => {this.props.history.push(`addSurgery`)}}
-              >
-                <Icon name="plus"/>
-                Add new surgey
-              </Button>
+              <div style={{position: 'absolute', right: '20px', display: 'inline'}}>
+                <Button 
+                  icon
+                  labelPosition="left"
+                  color="grey" 
+                  onClick={() => {this.props.history.replace(`medicalRecord`)}}
+                >
+                  <Icon name="arrow left"/>
+                  Go Back
+                </Button>
+                <Button 
+                  icon
+                  labelPosition="left"
+                  color="green" 
+                  onClick={() => {this.props.history.push(`addSurgery`)}}
+                >
+                  <Icon name="plus"/>
+                  Add new surgey
+                </Button>
+              </div>
+
             </Segment>
               {
                 (this.state.noSurgeries == true) ? 

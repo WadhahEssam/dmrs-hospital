@@ -90,7 +90,17 @@ export default class AddSurgery extends Component {
       <AuthBoilerplate history={this.props.history}>
         <Container padded="true" style={{ padding: '20px' }} fluid>
           <Segment>
-            <h3>Add New Surgery</h3>
+            <h3 style={{display: 'inline'}}>Add New Surgery</h3> 
+              <Button 
+                icon
+                labelPosition="left"
+                color="grey" 
+                style={{position: 'absolute', right: '20px'}}
+                onClick={() => {this.props.history.replace(`surgeries`)}}
+              >
+                <Icon name="arrow left"/>
+                Go Back
+              </Button>
             <Message warning>Be sure of the information you put, because you will not be able to modify it later.</Message>
             {
               (this.state.isError) ? <Message error>{this.state.errorMessage}</Message> : <div/>
