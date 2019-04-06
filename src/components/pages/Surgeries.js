@@ -39,11 +39,13 @@ export default class Home extends Component {
       ); 
     
     let transactionsList = [];
+      // mark for reusability 
     let transactionsCount = await medicalRecordContract.methods.surgeriesCount().call();
     if (transactionsCount == 0) {
       this.setState({noTransactions: true});
     }
     for (let i = 0; i < transactionsCount; i++) {
+        // mark for reusability 
       let newTransaction = await medicalRecordContract.methods.surgeries(i).call();
       transactionsList.push(newTransaction);
     }
@@ -91,9 +93,6 @@ export default class Home extends Component {
       } else if (transaction.isCorrectionFor !== '') {
         label = <Label color='blue' ribbon>Is Correction For Surgery With ID ( {transaction.isCorrectionFor} ) </Label> 
       }
-
-
-      console.log(this.isCorrected(6).result);
 
       return (
         <Card key={index+1} fluid color={colorOfCard} style={{marginTop: "30px", marginBottom: "30px"}}>
