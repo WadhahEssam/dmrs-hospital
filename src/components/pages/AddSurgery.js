@@ -205,7 +205,7 @@ export default class AddSurgery extends Component {
       let isCorrectionFor = '';
       if (newTransaction.isCorrection == true) {
         isCorrectionFor = newTransaction.correctionFor;
-      }
+      } 
       await medicalRecordContract.methods.addSurgery('King Khaled Hospital', newTransaction.surgeryName, newTransaction.doctor, newTransaction.duration, 'emptyFileHash', newTransaction.extraInformation, isCorrectionFor)
       .send({ from: accounts[0], gas: '200000000' })
       .then(() => {

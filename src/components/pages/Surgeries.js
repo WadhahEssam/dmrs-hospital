@@ -206,12 +206,21 @@ export default class Home extends Component {
         medicalRecordAddress
       ); 
 
+
     // mark for reusability 
     await medicalRecordContract.methods.markTransactionAsMedicalError(1, id).send({ from: accounts[0], gas: '200000000' })
-    .then(() => {
+    .then(async() => {
       let cloned = cloneDeep(this.state.transactions);
       for(let i = 0; i < cloned.length; i++){
         if (cloned[i].id == id) {
+          if (cloned[i].isCorrectionFor !== '') {
+            // mark for reusability
+            // this is a hack for the transactions 
+            // that are a correction for other trasaction , 
+            // so you have to mark the corrected transactions 
+            // as medical erros as well
+            await medicalRecordContract.methods.markTransactionAsMedicalError(1, cloned[i].isCorrectionFor).send({ from: accounts[0], gas: '200000000' })
+          }
           cloned[i].isCorrectionFor = 'true';
         }
       }
