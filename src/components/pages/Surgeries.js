@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import AuthBoilerplate from '../AuthBoilerplate'
 import { Segment, Container, Card, Table, Form, Message, Label, Button, Radio, Image, Icon } from 'semantic-ui-react'
-import { SSL_OP_NETSCAPE_CHALLENGE_BUG } from 'constants';
+import { cloneDeep } from 'lodash';
 import contract from '../../medicalRecordsSystemContract';
 import web3 from '../../web3';
 import medicalRecordABI from '../../medicalRecord';
 import { toast } from 'react-toastify';
+
 
 export default class Home extends Component {
   state = {
@@ -106,7 +107,8 @@ export default class Home extends Component {
               <Button 
                 inverted 
                 disabled={(surgery.isCorrectionFor == 'true' || surgery.isCorrectionFor !== '')}
-                color="red">
+                color="red"
+                onClick={() => {this.markAsMedicalError(surgery.id)}}>
                 Mark As Medical Error
               </Button>
             </Container>
@@ -145,6 +147,47 @@ export default class Home extends Component {
         </AuthBoilerplate>
       </div>
     )
+  }
+
+  markAsMedicalError = async (id) => {
+    const accounts = await web3.eth.getAccounts();
+    const medicalRecordID = this.props.match.params.id;
+    const medicalRecordAddress = await contract.methods.getMedicalRecord(medicalRecordID).call()
+    let medicalRecordContract = await new web3.eth.Contract(
+        medicalRecordABI, 
+        medicalRecordAddress
+      ); 
+
+    await medicalRecordContract.methods.markTransactionAsMedicalError(1, id).send({ from: accounts[0], gas: '200000000' })
+    .then(() => {
+      let cloned = cloneDeep(this.state.surgeries);
+      for(let i = 0; i < cloned.length; i++){
+        if (cloned[i].id == id) {
+          cloned[i].isCorrectionFor = 'true';
+        }
+      }
+      this.setState({surgeries: cloned});
+      toast.success("Surgery has been set as a medical error.", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        width: 200,
+      });
+    })
+    .catch(() => {
+      toast.error("Error : Something worng happened", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        width: 200,
+      });
+    })
   }
 
   formatDate = (_date) => {
