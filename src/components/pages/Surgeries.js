@@ -20,16 +20,16 @@ export default class Home extends Component {
     emergencyContact: '',
     isError: false,
     errorMessage: '',
-    noSurgeries: null,
-    surgeries: [],
+    noTransactions: null,
+    transactions: [],
     erroneousTransactions: [], // this represent the ids' of the transactions that has been corrected [{id: 1, corretedBy: 5}, {id: 2, corretedBy: 6}]
   }
 
   componentDidMount() {
-    this.getSurgeries();
+    this.getTransactions();
   }
 
-  getSurgeries = async () => {
+  getTransactions = async () => {
     const accounts = await web3.eth.getAccounts();
     const medicalRecordID = this.props.match.params.id;
     const medicalRecordAddress = await contract.methods.getMedicalRecord(medicalRecordID).call()
@@ -38,24 +38,23 @@ export default class Home extends Component {
         medicalRecordAddress
       ); 
     
-    let surgeriesList = [];
-    let surgeriesCount = await medicalRecordContract.methods.surgeriesCount().call();
-    if (surgeriesCount == 0) {
-      this.setState({noSurgeries: true});
+    let transactionsList = [];
+    let transactionsCount = await medicalRecordContract.methods.surgeriesCount().call();
+    if (transactionsCount == 0) {
+      this.setState({noTransactions: true});
     }
-    for (let i = 0; i < surgeriesCount; i++) {
-      let newSurgery = await medicalRecordContract.methods.surgeries(i).call();
-      surgeriesList.push(newSurgery);
+    for (let i = 0; i < transactionsCount; i++) {
+      let newTransaction = await medicalRecordContract.methods.surgeries(i).call();
+      transactionsList.push(newTransaction);
     }
-    this.setState({surgeries: surgeriesList});
+    this.setState({transactions: transactionsList});
     this.filterCorrectedTransactions();
-    console.log(surgeriesList);
   }
 
   // checkes if the transaction is correted or not
   filterCorrectedTransactions = () => {
     let erroneousTransactions = [];
-    let transactions = this.state.surgeries;
+    let transactions = this.state.transactions;
     for(let i = 0; i < transactions.length; i++) {
       if (transactions[i].isCorrectionFor !== '' && transactions[i].isCorrectionFor !== 'true') {
         erroneousTransactions.push({id: transactions[i].isCorrectionFor, correctedBy: transactions[i].id});
@@ -76,21 +75,21 @@ export default class Home extends Component {
   }
 
   render() {
-    const { surgeries } = this.state;
+    const { transactions } = this.state;
 
-    let surgeriesCards = surgeries.slice(0).reverse().map((surgery, index) => {
+    let transactionsCards = transactions.slice(0).reverse().map((transaction, index) => {
       let colorOfCard = 'grey';
-      if (surgery.isCorrectionFor == 'true' || this.isCorrected(surgery.id).result) {
+      if (transaction.isCorrectionFor == 'true' || this.isCorrected(transaction.id).result) {
         colorOfCard = 'red';
       } 
       
       let label = null;
-      if (this.isCorrected(surgery.id).result) {
-        label = <Label color='red' ribbon>Medical Error : has been corrected by surgery with ID ( {this.isCorrected(surgery.id).correctedBy} )</Label> 
-      } else if (surgery.isCorrectionFor == 'true') {
+      if (this.isCorrected(transaction.id).result) {
+        label = <Label color='red' ribbon>Medical Error : has been corrected by surgery with ID ( {this.isCorrected(transaction.id).correctedBy} )</Label> 
+      } else if (transaction.isCorrectionFor == 'true') {
         label = <Label color='red' ribbon>Medical Error</Label> 
-      } else if (surgery.isCorrectionFor !== '') {
-        label = <Label color='blue' ribbon>Is Correction For Surgery With ID ( {surgery.isCorrectionFor} ) </Label> 
+      } else if (transaction.isCorrectionFor !== '') {
+        label = <Label color='blue' ribbon>Is Correction For Surgery With ID ( {transaction.isCorrectionFor} ) </Label> 
       }
 
 
@@ -104,21 +103,21 @@ export default class Home extends Component {
                 <Table.Body>
                     <Table.Row>
                         <Table.Cell width="3" active>Surgery Name</Table.Cell>
-                        <Table.Cell width="4">{surgery.surgeryName}</Table.Cell>
+                        <Table.Cell width="4">{transaction.surgeryName}</Table.Cell>
                         <Table.Cell width="3" active>Surgery Date</Table.Cell>
-                        <Table.Cell width="4">{this.formatDate(surgery.date)}</Table.Cell>
+                        <Table.Cell width="4">{this.formatDate(transaction.date)}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell active>Doctor</Table.Cell>
-                        <Table.Cell>{surgery.mainDoctor}</Table.Cell>
+                        <Table.Cell>{transaction.mainDoctor}</Table.Cell>
                         <Table.Cell active>Hospital</Table.Cell>
-                        <Table.Cell>{surgery.hospitalName}</Table.Cell>
+                        <Table.Cell>{transaction.hospitalName}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell active>Duration</Table.Cell>
-                        <Table.Cell>{surgery.duration}</Table.Cell>
+                        <Table.Cell>{transaction.duration}</Table.Cell>
                         <Table.Cell active>Transaciton ID</Table.Cell>
-                        <Table.Cell>{surgery.id}</Table.Cell>
+                        <Table.Cell>{transaction.id}</Table.Cell>
                     </Table.Row>
                 </Table.Body>
             </Table>
@@ -129,7 +128,7 @@ export default class Home extends Component {
                 Extra Information 
               </Label>
               <h6 style={{paddingLeft: '30px', paddingRight: '30px'}}>
-                {surgery.surgeryInformation}
+                {transaction.surgeryInformation}
               </h6>
             </Container>
             {/* <hr/>
@@ -145,9 +144,9 @@ export default class Home extends Component {
             <Container style={{marginBottom: '10px'}} textAlign="center">
               <Button 
                 inverted 
-                disabled={(surgery.isCorrectionFor == 'true' || this.isCorrected(surgery.id).result)}
+                disabled={(transaction.isCorrectionFor == 'true' || this.isCorrected(transaction.id).result)}
                 color="red"
-                onClick={() => {this.markAsMedicalError(surgery.id)}}>
+                onClick={() => {this.markAsMedicalError(transaction.id)}}>
                 Mark As Medical Error
               </Button>
             </Container>
@@ -161,7 +160,7 @@ export default class Home extends Component {
         <AuthBoilerplate history={this.props.history}>
           <Container padded="true" style={{ padding: "20px" }}>
             <Segment>
-              <h3 style={{display: 'inline'}}>Surgeries for someone</h3> 
+              <h3 style={{display: 'inline'}}>List of Surgeries</h3> 
               <div style={{position: 'absolute', right: '20px', display: 'inline'}}>
                 <Button 
                   icon
@@ -185,13 +184,13 @@ export default class Home extends Component {
 
             </Segment>
               {
-                (this.state.noSurgeries == true) ? 
+                (this.state.noTransactions == true) ? 
                 <Segment><Message warning>There are no surgeries for this patient at the moment</Message></Segment> :
                 <div />
               }
             <br/>
             <Card.Group>
-              {surgeriesCards}
+              {transactionsCards}
             </Card.Group>
           </Container>
         </AuthBoilerplate>
@@ -208,15 +207,17 @@ export default class Home extends Component {
         medicalRecordAddress
       ); 
 
+    // mark for reusability 
     await medicalRecordContract.methods.markTransactionAsMedicalError(1, id).send({ from: accounts[0], gas: '200000000' })
     .then(() => {
-      let cloned = cloneDeep(this.state.surgeries);
+      let cloned = cloneDeep(this.state.transactions);
       for(let i = 0; i < cloned.length; i++){
         if (cloned[i].id == id) {
           cloned[i].isCorrectionFor = 'true';
         }
       }
-      this.setState({surgeries: cloned});
+      this.setState({transactions: cloned});
+      // mark for reusability 
       toast.success("Surgery has been set as a medical error.", {
         position: "bottom-center",
         autoClose: 3000,
