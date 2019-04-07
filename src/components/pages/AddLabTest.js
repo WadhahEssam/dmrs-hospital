@@ -16,6 +16,7 @@ export default class AddLabTest extends Component {
     isCorrection: false,
     correctionFor: '',
     isError: false,
+    isLoading: false,
     errorMessage: '',
     transactions: [],
     erroneousTransactions: [],
@@ -109,7 +110,7 @@ export default class AddLabTest extends Component {
             }
           </Segment>
           <Segment fluid='true'>
-            <Form fluid='true'>
+            <Form loading={this.state.isLoading} fluid='true'>
             <Form.Group widths='equal'>
                 <Form.Field>
                   <Form.Input 
@@ -180,13 +181,18 @@ export default class AddLabTest extends Component {
     formdata.append('file', file);
     formdata.append('name', 'file')
 
+    this.setState({isLoading: true})
     axios({
-      url: 'http://localhost:8000/upload',
+      url: 'https://image-hasher-wadahesam.c9users.io/upload',
       method: 'POST',
       data: formdata
     })
     .then((response) => {
       this.setState({fileHash: response.data.hash})
+      this.setState({isLoading: false})
+    })
+    .catch(() => {
+      this.setState({isError: true, errorMessage: 'Something wrong happened while uploading the image', isLoading: false})
     })
   }
 
