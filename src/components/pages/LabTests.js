@@ -62,6 +62,7 @@ export default class LabTests extends Component {
       }
     }
     this.setState({erroneousTransactions});
+    console.log(this.state.transactions)
   }
 
   // check by id if specific transaction is corrected
@@ -86,6 +87,104 @@ export default class LabTests extends Component {
   }
 
   render() {
+
+    const { transactions } = this.state;
+
+    let transactionsCards = transactions.slice(0).reverse().map((transaction, index) => {
+      let colorOfCard = 'grey';
+      if (transaction.isCorrectionFor == 'true' || this.isCorrected(transaction.id).result) {
+        colorOfCard = 'red';
+      } 
+
+      let label = null;
+      if (this.isCorrected(transaction.id).result) {
+        label = <Label color='red' ribbon>Medical Error : has been corrected by surgery with ID ( {this.isCorrected(transaction.id).correctedBy} )</Label> 
+      } else if (transaction.isCorrectionFor == 'true') {
+        label = <Label color='red' ribbon>Medical Error</Label> 
+      } else if (transaction.isCorrectionFor !== '') {
+        label = <Label color='blue' ribbon>Is Correction For Surgery With ID ( {transaction.isCorrectionFor} ) </Label> 
+      }
+
+      return (
+        <Card key={index+1} fluid color={colorOfCard} style={{marginTop: "30px", marginBottom: "30px"}}>
+          <Container style={{padding: '10px'}}>
+            {label}
+            <Table celled>
+                <Table.Body>
+                    <Table.Row>
+                        <Table.Cell width="3" active>Test Type</Table.Cell>
+                        <Table.Cell width="4">{transaction.testType}</Table.Cell>
+                        <Table.Cell width="3" active>Test Date</Table.Cell>
+                        <Table.Cell width="4">{this.formatDate(transaction.date)}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell active>Lab Worker Name</Table.Cell>
+                        <Table.Cell>{transaction.laboratoryWorkerName}</Table.Cell>
+                        <Table.Cell active>Hospital</Table.Cell>
+                        <Table.Cell>{transaction.hospitalName}</Table.Cell>
+                    </Table.Row>
+                    <Table.Row>
+                        <Table.Cell active>Test File Hash</Table.Cell>
+                        <Table.Cell>{(transaction.testHash).substring(0,32)}</Table.Cell>
+                        <Table.Cell active>Transaciton ID</Table.Cell>
+                        <Table.Cell>{transaction.id}</Table.Cell>
+                    </Table.Row>
+                </Table.Body>
+            </Table>
+          </Container>
+          <Card.Description>
+            <Container textAlign="center">
+              <Label size="big" basic pointing='below'>
+                Extra Information 
+              </Label>
+              <h6 style={{paddingLeft: '30px', paddingRight: '30px'}}>
+                {transaction.laboratoryTestDescription}
+              </h6>
+            </Container>
+            {/* <hr/>
+            <Container textAlign="center" style={{paddingBottom: '10px'}}>
+              <Label size="big" basic pointing='right'>
+                File
+              </Label>
+              <Button style={{marginLeft: '10px', marginTop: '10px'}} color="green" size="big"><Icon name="file"/> Download</Button>
+            </Container> */}
+            <hr/>
+            <Container textAlign="center">
+              <Label size="big" basic pointing='below'>
+                Test Image
+              </Label>
+              <br/>
+              <Image
+                src={`https://image-hasher-wadahesam.c9users.io/storage/files/${transaction.testHash}`}
+                as='a'
+                size='medium'
+                href={`https://image-hasher-wadahesam.c9users.io/storage/files/${transaction.testHash}`}
+                target='_blank'
+                style={{marginTop: '10px', marginBottom: '20px'}}
+                rounded
+              />
+            </Container>
+          </Card.Description>
+          <Card.Meta>
+            <Container style={{marginBottom: '10px'}} textAlign="center">
+              <Button 
+                inverted 
+                disabled={(transaction.isCorrectionFor == 'true' || this.isCorrected(transaction.id).result) || this.isNotOld(transaction.date)}
+                color="red"
+                onClick={() => {this.markAsMedicalError(transaction.id)}}>
+                Mark As Medical Error
+              </Button>
+              {
+                (this.isNotOld(transaction.date) && this.isCorrected(transaction.id).result == false && !(transaction.isCorrectionFor == 'true')) ?
+                <Label basic color='grey' pointing='left'>30 minutes has already passed</Label> : 
+                <div/>
+              }
+            </Container>
+          </Card.Meta>
+        </Card>
+      );
+    })
+
     return (
       <div>
         <AuthBoilerplate history={this.props.history}>
@@ -121,11 +220,22 @@ export default class LabTests extends Component {
               }
             <br/>
             <Card.Group>
-              {/* {transactionsCards} */}
+              {transactionsCards}
             </Card.Group>
           </Container>
         </AuthBoilerplate>
       </div>
     )
+  }
+
+  formatDate = (_date) => {
+    let date = new Date(_date*1000);
+    let hours = date.getHours();
+    let minutes = ("0"+date.getMinutes()).substr(-2);
+    let seconds = ("0"+date.getSeconds()).substr(-2);
+    let day = date.getDate();
+    let month = date.getUTCMonth();
+    let year = date.getUTCFullYear();
+    return hours+':'+minutes+':'+seconds+"  "+day+"/"+month+"/"+year;
   }
 }
