@@ -228,6 +228,57 @@ export default class LabTests extends Component {
     )
   }
 
+  markAsMedicalError = async (id) => {
+    const accounts = await web3.eth.getAccounts();
+    const medicalRecordID = this.props.match.params.id;
+    const medicalRecordAddress = await contract.methods.getMedicalRecord(medicalRecordID).call()
+    let medicalRecordContract = await new web3.eth.Contract(
+        medicalRecordABI, 
+        medicalRecordAddress
+      ); 
+
+    // mark for reusability 
+    await medicalRecordContract.methods.markTransactionAsMedicalError(2, id).send({ from: accounts[0], gas: '200000000' })
+    .then(async() => {
+      let cloned = cloneDeep(this.state.transactions);
+      for(let i = 0; i < cloned.length; i++){
+        if (cloned[i].id == id) {
+          if (cloned[i].isCorrectionFor !== '') {
+            // mark for reusability
+            // this is a hack for the transactions 
+            // that are a correction for other trasaction , 
+            // so you have to mark the corrected transactions 
+            // as medical erros as well
+            await medicalRecordContract.methods.markTransactionAsMedicalError(1, cloned[i].isCorrectionFor).send({ from: accounts[0], gas: '200000000' })
+          }
+          cloned[i].isCorrectionFor = 'true';
+        }
+      }
+      this.setState({transactions: cloned});
+      // mark for reusability 
+      toast.success("Lab test has been set as a medical error.", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        width: 200,
+      });
+    })
+    .catch(() => {
+      toast.error("Error : Something worng happened", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        width: 200,
+      });
+    })
+  }
+
   formatDate = (_date) => {
     let date = new Date(_date*1000);
     let hours = date.getHours();

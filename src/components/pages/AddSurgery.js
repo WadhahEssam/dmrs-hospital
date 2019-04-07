@@ -73,13 +73,23 @@ export default class AddSurgery extends Component {
     return {result: false};
   }
 
+  isNotOld = (time) => {
+    let now = new Date();
+    const minutes = 30;
+    if (parseInt(time) + (60 * minutes) >= parseInt((now.getTime() + '').substring(0,10))) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   render() {
     // filtering the transactions to eleminate the erroneous ones
     let transactions = [];
     let allTransactions = this.state.transactions;
     for (let i = 0; i < allTransactions.length; i++) {
       // adding transactions that are not marked as medical errors and not correted
-      if (allTransactions[i].isCorrectionFor == '' && this.isCorrected(allTransactions[i].id).result == false) {
+      if (allTransactions[i].isCorrectionFor == '' && this.isCorrected(allTransactions[i].id).result == false && this.isNotOld(allTransactions[i].date) == false) {
         transactions.push({
           key: i,
           text: `ID: ${allTransactions[i].id} , Name: ${allTransactions[i].surgeryName}`,
