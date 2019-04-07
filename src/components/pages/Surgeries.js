@@ -76,6 +76,16 @@ export default class Home extends Component {
     return {result: false};
   }
 
+  isNotOld = (time) => {
+    let now = new Date();
+    const minutes = 30;
+    if (parseInt(time) + (60 * minutes) >= parseInt((now.getTime() + '').substring(0,10))) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   render() {
     const { transactions } = this.state;
 
@@ -84,7 +94,7 @@ export default class Home extends Component {
       if (transaction.isCorrectionFor == 'true' || this.isCorrected(transaction.id).result) {
         colorOfCard = 'red';
       } 
-      
+
       let label = null;
       if (this.isCorrected(transaction.id).result) {
         label = <Label color='red' ribbon>Medical Error : has been corrected by surgery with ID ( {this.isCorrected(transaction.id).correctedBy} )</Label> 
@@ -143,11 +153,16 @@ export default class Home extends Component {
             <Container style={{marginBottom: '10px'}} textAlign="center">
               <Button 
                 inverted 
-                disabled={(transaction.isCorrectionFor == 'true' || this.isCorrected(transaction.id).result)}
+                disabled={(transaction.isCorrectionFor == 'true' || this.isCorrected(transaction.id).result) || this.isNotOld(transaction.date)}
                 color="red"
                 onClick={() => {this.markAsMedicalError(transaction.id)}}>
                 Mark As Medical Error
               </Button>
+              {
+                (this.isNotOld(transaction.date) && this.isCorrected(transaction.id).result == false && !(transaction.isCorrectionFor == 'true')) ?
+                <Label basic color='grey' pointing='left'>30 minutes has already passed</Label> : 
+                <div/>
+              }
             </Container>
           </Card.Meta>
         </Card>
