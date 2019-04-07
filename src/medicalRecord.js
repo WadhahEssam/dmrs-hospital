@@ -7,7 +7,7 @@ const medicalRecordABI = [
 			{
 				"name": "",
 				"type": "uint256"
-      }
+			}
 		],
 		"payable": false,
 		"stateMutability": "view",
@@ -91,36 +91,6 @@ const medicalRecordABI = [
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_laboratoryWorkerName",
-				"type": "string"
-			},
-			{
-				"name": "_testType",
-				"type": "string"
-			},
-			{
-				"name": "_laboratoryTestDescription",
-				"type": "string"
-			},
-			{
-				"name": "_fileHash",
-				"type": "string"
-			},
-			{
-				"name": "_isCorrectionFor",
-				"type": "string"
-			}
-		],
-		"name": "addLaboratoryTest",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
 				"name": "_hospitalName",
 				"type": "string"
 			},
@@ -168,6 +138,10 @@ const medicalRecordABI = [
 			{
 				"name": "id",
 				"type": "uint256"
+			},
+			{
+				"name": "hospitalName",
+				"type": "string"
 			},
 			{
 				"name": "doctorName",
@@ -223,36 +197,6 @@ const medicalRecordABI = [
 		"type": "function"
 	},
 	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_doctorName",
-				"type": "string"
-			},
-			{
-				"name": "_donationType",
-				"type": "string"
-			},
-			{
-				"name": "_amount",
-				"type": "uint256"
-			},
-			{
-				"name": "_fileHash",
-				"type": "string"
-			},
-			{
-				"name": "_isCorrectionFor",
-				"type": "string"
-			}
-		],
-		"name": "addBloodDonation",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"constant": true,
 		"inputs": [],
 		"name": "medicalRecordAddress",
@@ -264,28 +208,6 @@ const medicalRecordABI = [
 		],
 		"payable": false,
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_doctorName",
-				"type": "string"
-			},
-			{
-				"name": "_drugList",
-				"type": "string"
-			},
-			{
-				"name": "_isCorrectionFor",
-				"type": "string"
-			}
-		],
-		"name": "addDrugPrescribtion",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -363,6 +285,10 @@ const medicalRecordABI = [
 				"type": "uint256"
 			},
 			{
+				"name": "hospitalName",
+				"type": "string"
+			},
+			{
 				"name": "doctorName",
 				"type": "string"
 			},
@@ -402,6 +328,10 @@ const medicalRecordABI = [
 				"type": "uint256"
 			},
 			{
+				"name": "hospitalName",
+				"type": "string"
+			},
+			{
 				"name": "doctorName",
 				"type": "string"
 			},
@@ -428,6 +358,62 @@ const medicalRecordABI = [
 		],
 		"payable": false,
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_hospitalName",
+				"type": "string"
+			},
+			{
+				"name": "_doctorName",
+				"type": "string"
+			},
+			{
+				"name": "_drugList",
+				"type": "string"
+			},
+			{
+				"name": "_isCorrectionFor",
+				"type": "string"
+			}
+		],
+		"name": "addDrugPrescribtion",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_hospitalName",
+				"type": "string"
+			},
+			{
+				"name": "_doctorName",
+				"type": "string"
+			},
+			{
+				"name": "_diognosisDescription",
+				"type": "string"
+			},
+			{
+				"name": "_fileHash",
+				"type": "string"
+			},
+			{
+				"name": "_isCorrectionFor",
+				"type": "string"
+			}
+		],
+		"name": "addDiagnosis",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -464,28 +450,56 @@ const medicalRecordABI = [
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "nationalID",
-		"outputs": [
+		"constant": false,
+		"inputs": [
 			{
-				"name": "",
+				"name": "_hospitalName",
+				"type": "string"
+			},
+			{
+				"name": "_doctorName",
+				"type": "string"
+			},
+			{
+				"name": "_donationType",
+				"type": "string"
+			},
+			{
+				"name": "_amount",
 				"type": "uint256"
+			},
+			{
+				"name": "_fileHash",
+				"type": "string"
+			},
+			{
+				"name": "_isCorrectionFor",
+				"type": "string"
 			}
 		],
+		"name": "addBloodDonation",
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_doctorName",
+				"name": "_hospitalName",
 				"type": "string"
 			},
 			{
-				"name": "_diognosisDescription",
+				"name": "_laboratoryWorkerName",
+				"type": "string"
+			},
+			{
+				"name": "_testType",
+				"type": "string"
+			},
+			{
+				"name": "_laboratoryTestDescription",
 				"type": "string"
 			},
 			{
@@ -497,10 +511,24 @@ const medicalRecordABI = [
 				"type": "string"
 			}
 		],
-		"name": "addDiagnosis",
+		"name": "addLaboratoryTest",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "nationalID",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -595,6 +623,10 @@ const medicalRecordABI = [
 			{
 				"name": "id",
 				"type": "uint256"
+			},
+			{
+				"name": "hospitalName",
+				"type": "string"
 			},
 			{
 				"name": "laboratoryWorkerName",

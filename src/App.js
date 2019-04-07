@@ -17,6 +17,9 @@ import Surgeries from './components/pages/Surgeries'
 import AddSurgery from './components/pages/AddSurgery';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import RadioScans from './components/pages/RadioScans';
+import LabTests from './components/pages/LabTests';
+import AddLabTest from './components/pages/AddLabTest';
 
 class App extends Component {
 
@@ -55,6 +58,9 @@ class App extends Component {
               <Route path="/radioScan" component={RadioScanForm} />
               <Route path="/:id/surgeries" component={Surgeries} />
               <Route path="/:id/addSurgery" component={AddSurgery} />
+              <Route path="/:id/radioScans" component={RadioScans} />
+              <Route path="/:id/labTests" component={LabTests} />
+              <Route path="/:id/addLabTest" component={AddLabTest} />
             </Switch>
           </div>
         </BrowserRouter>

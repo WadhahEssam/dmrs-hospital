@@ -45,7 +45,7 @@ export default class Home extends Component {
       this.setState({noTransactions: true});
     }
     for (let i = 0; i < transactionsCount; i++) {
-        // mark for reusability 
+      // mark for reusability 
       let newTransaction = await medicalRecordContract.methods.surgeries(i).call();
       transactionsList.push(newTransaction);
     }
