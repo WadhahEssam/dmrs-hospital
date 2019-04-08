@@ -242,7 +242,6 @@ export default class AddSurgery extends Component {
       })
 
       this.props.history.replace(`surgeries`);
-
     }    
   }
 }

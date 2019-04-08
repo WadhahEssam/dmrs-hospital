@@ -58,7 +58,7 @@ export default class AddDrugPrescription extends Component {
                 labelPosition="left"
                 color="grey" 
                 style={{position: 'absolute', right: '20px'}}
-                onClick={() => {this.props.history.replace(`surgeries`)}}
+                onClick={() => {this.props.history.replace(`medicalPrescriptions`)}}
               >
                 <Icon name="arrow left"/>
                 Go Back
@@ -214,7 +214,7 @@ export default class AddDrugPrescription extends Component {
         });
       })
 
-      this.props.history.replace(`drugPrescription`);
+      this.props.history.replace(`medicalPrescriptions`);
     }    
   }
 }

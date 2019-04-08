@@ -7,7 +7,7 @@ import web3 from '../../web3';
 import medicalRecordABI from '../../medicalRecord';
 import { toast } from 'react-toastify';
 
-export default class MedicalPrescriptions extends Component {
+export default class DrugPrescriptions extends Component {
   state = {
     name: '',
     nationalID: '',
