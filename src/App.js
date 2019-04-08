@@ -22,6 +22,8 @@ import LabTests from './components/pages/LabTests';
 import AddLabTest from './components/pages/AddLabTest';
 import DrugPrescriptions from './components/pages/DrugPrescriptions';
 import AddDrugPrescription from './components/pages/AddDrugPrescription';
+import Diagnosis from './components/pages/Diagnosis';
+import AddDiagnosis from './components/pages/AddDiagnosis';
 
 class App extends Component {
 
@@ -65,6 +67,8 @@ class App extends Component {
               <Route path="/:id/addLabTest" component={AddLabTest} />
               <Route path="/:id/medicalPrescriptions" component={DrugPrescriptions} />
               <Route path="/:id/addMedicalPrescription" component={AddDrugPrescription} />
+              <Route path="/:id/diagnosis" component={Diagnosis} />
+              <Route path="/:id/addDiagnosis" component={AddDiagnosis} />
             </Switch>
           </div>
         </BrowserRouter>
