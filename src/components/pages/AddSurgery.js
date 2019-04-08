@@ -129,10 +129,6 @@ export default class AddSurgery extends Component {
                     placeholder="eg. Artery Bypass" 
                   />
                 </Form.Field>
-                <Form.Field>
-                  <label>Date</label>
-                  <DayPickerInput style={{ width: '100%' }} onDayChange={this.handleDayChange} />
-                </Form.Field>
               </Form.Group>
               <Form.Group widths='equal'>
                 <Form.Field>
@@ -193,9 +189,7 @@ export default class AddSurgery extends Component {
 
   addNewTransaction = async () => {
     const newTransaction = this.state;
-    if (newTransaction.date == '') {
-      this.setState({isError: true, errorMessage: 'please select a date for the surgey'});
-    } else if (newTransaction.doctor == '') {
+    if (newTransaction.doctor == '') {
       this.setState({isError: true, errorMessage: 'please insert the doctor name'});
     } else if (newTransaction.duration == '') {
       this.setState({isError: true, errorMessage: 'please insert the duration of the surgery'});
