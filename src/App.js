@@ -20,6 +20,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import RadioScans from './components/pages/RadioScans';
 import LabTests from './components/pages/LabTests';
 import AddLabTest from './components/pages/AddLabTest';
+import MedicalPrescriptions from './components/pages/MedicalPrescriptions';
+import AddDrugPrescription from './components/pages/AddDrugPrescription';
 
 class App extends Component {
 
@@ -61,6 +63,8 @@ class App extends Component {
               <Route path="/:id/radioScans" component={RadioScans} />
               <Route path="/:id/labTests" component={LabTests} />
               <Route path="/:id/addLabTest" component={AddLabTest} />
+              <Route path="/:id/medicalPrescriptions" component={MedicalPrescriptions} />
+              <Route path="/:id/addMedicalPrescription" component={AddDrugPrescription} />
             </Switch>
           </div>
         </BrowserRouter>

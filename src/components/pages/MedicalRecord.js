@@ -169,7 +169,7 @@ class MedicalRecord extends Component {
                         </Link>
                         <Link
                             style={{ padding }}
-                            to={`/${this.state.id}/medicinePrescriptions`}
+                            to={`/${this.state.id}/medicalPrescriptions`}
                         >
                             <Card color="orange" raised>
                             <div style={{ height: "242px" }}>
