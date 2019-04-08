@@ -90,7 +90,7 @@ export default class AddDrugPrescription extends Component {
       if (allTransactions[i].isCorrectionFor == '' && this.isCorrected(allTransactions[i].id).result == false && this.isNotOld(allTransactions[i].date) == false) {
         transactions.push({
           key: i,
-          text: `ID: ${allTransactions[i].id} , Name: ${allTransactions[i].surgeryName}`,
+          text: `ID: ${allTransactions[i].id}`,
           value: allTransactions[i].id
         })
       }

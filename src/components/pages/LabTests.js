@@ -100,11 +100,11 @@ export default class LabTests extends Component {
 
       let label = null;
       if (this.isCorrected(transaction.id).result) {
-        label = <Label color='red' ribbon>Medical Error : has been corrected by surgery with ID ( {this.isCorrected(transaction.id).correctedBy} )</Label> 
+        label = <Label color='red' ribbon>Medical Error : has been corrected by lab test with ID ( {this.isCorrected(transaction.id).correctedBy} )</Label> 
       } else if (transaction.isCorrectionFor == 'true') {
         label = <Label color='red' ribbon>Medical Error</Label> 
       } else if (transaction.isCorrectionFor !== '') {
-        label = <Label color='blue' ribbon>Is Correction For Surgery With ID ( {transaction.isCorrectionFor} ) </Label> 
+        label = <Label color='blue' ribbon>Is Correction For lab test With ID ( {transaction.isCorrectionFor} ) </Label> 
       }
 
       return (

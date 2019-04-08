@@ -177,7 +177,7 @@ export default class AddLabTest extends Component {
                 ) : 
                 <div/>
               }
-              <Button primary onClick={this.addNewTransaction}>Add Surgery</Button>
+              <Button primary onClick={this.addNewTransaction}>Add Lab Test</Button>
             </Form>
           </Segment>
         </Container>
@@ -231,7 +231,7 @@ export default class AddLabTest extends Component {
       await medicalRecordContract.methods.addLaboratoryTest('King Khaled Hospital', newTransaction.workerName, newTransaction.testType, newTransaction.extraInformation, newTransaction.fileHash, isCorrectionFor)
       .send({ from: accounts[0], gas: '200000000' })
       .then(() => {
-        toast.success("New surgery added successfully", {
+        toast.success("New lab test added successfully", {
           position: "bottom-center",
           autoClose: 3000,
           hideProgressBar: false,

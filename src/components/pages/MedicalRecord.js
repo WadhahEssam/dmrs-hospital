@@ -185,6 +185,24 @@ class MedicalRecord extends Component {
                             </Card.Content>
                             </Card>
                         </Link>
+                        <Link
+                            style={{ padding }}
+                            to={`/${this.state.id}/bloodDonations`}
+                        >
+                            <Card color="orange" raised>
+                            <div style={{ height: "242px" }}>
+                                <Image
+                                centered
+                                src="/blood-transfusion.svg"
+                                size="small"
+                                style={{ position: "relative", top: "50px" }}
+                                />
+                            </div>
+                            <Card.Content>
+                                <Card.Header textAlign='center'>Blood Donations</Card.Header>
+                            </Card.Content>
+                            </Card>
+                        </Link>
                         </Card.Group>
                     </Segment>
                 </Container>

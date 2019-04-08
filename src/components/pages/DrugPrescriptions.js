@@ -98,7 +98,7 @@ export default class DrugPrescriptions extends Component {
 
       let label = null;
       if (this.isCorrected(transaction.id).result) {
-        label = <Label color='red' ribbon>Medical Error : has been corrected by surgery with ID ( {this.isCorrected(transaction.id).correctedBy} )</Label> 
+        label = <Label color='red' ribbon>Medical Error : has been corrected by drug prescription with ID ( {this.isCorrected(transaction.id).correctedBy} )</Label> 
       } else if (transaction.isCorrectionFor == 'true') {
         label = <Label color='red' ribbon>Medical Error</Label> 
       } else if (transaction.isCorrectionFor !== '') {
