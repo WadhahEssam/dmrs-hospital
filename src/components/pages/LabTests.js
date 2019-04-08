@@ -6,6 +6,7 @@ import contract from '../../medicalRecordsSystemContract';
 import web3 from '../../web3';
 import medicalRecordABI from '../../medicalRecord';
 import { toast } from 'react-toastify';
+import imageHasherServer from '../../imageHasherServer';
 
 export default class LabTests extends Component {
   state = {
@@ -25,6 +26,7 @@ export default class LabTests extends Component {
   }
 
   componentDidMount() {
+    console.log(imageHasherServer)
     this.getTransactions();
   }
 
@@ -155,10 +157,10 @@ export default class LabTests extends Component {
               </Label>
               <br/>
               <Image
-                src={`https://image-hasher-wadahesam.c9users.io/storage/files/${transaction.testHash}`}
+                src={`${imageHasherServer}/storage/files/${transaction.testHash}`}
                 as='a'
                 size='medium'
-                href={`https://image-hasher-wadahesam.c9users.io/storage/files/${transaction.testHash}`}
+                href={`${imageHasherServer}/storage/files/${transaction.testHash}`}
                 target='_blank'
                 style={{marginTop: '10px', marginBottom: '20px'}}
                 rounded

@@ -6,6 +6,7 @@ import web3 from '../../web3';
 import medicalRecordABI from '../../medicalRecord';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import imageHasherServer from '../../imageHasherServer';
 
 export default class AddLabTest extends Component {
   state = {
@@ -192,7 +193,7 @@ export default class AddLabTest extends Component {
 
     this.setState({isLoading: true})
     axios({
-      url: 'https://image-hasher-wadahesam.c9users.io/upload',
+      url: imageHasherServer + '/upload',
       method: 'POST',
       data: formdata
     })
