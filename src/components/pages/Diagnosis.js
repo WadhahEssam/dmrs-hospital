@@ -96,11 +96,11 @@ export default class Diagnosis extends Component {
 
       let label = null;
       if (this.isCorrected(transaction.id).result) {
-        label = <Label color='red' ribbon>Medical Error : has been corrected by surgery with ID ( {this.isCorrected(transaction.id).correctedBy} )</Label> 
+        label = <Label color='red' ribbon>Medical Error : has been corrected by diagnosis with ID ( {this.isCorrected(transaction.id).correctedBy} )</Label> 
       } else if (transaction.isCorrectionFor == 'true') {
         label = <Label color='red' ribbon>Medical Error</Label> 
       } else if (transaction.isCorrectionFor !== '') {
-        label = <Label color='blue' ribbon>Is Correction For Surgery With ID ( {transaction.isCorrectionFor} ) </Label> 
+        label = <Label color='blue' ribbon>Is Correction For Diagnosis With ID ( {transaction.isCorrectionFor} ) </Label> 
       }
 
       return (
@@ -112,7 +112,7 @@ export default class Diagnosis extends Component {
                     <Table.Row>
                         <Table.Cell width="3" active>Doctor</Table.Cell>
                         <Table.Cell width="4">{transaction.doctorName}</Table.Cell>
-                        <Table.Cell width="3" active>Surgery Date</Table.Cell>
+                        <Table.Cell width="3" active>Diagnosis Date</Table.Cell>
                         <Table.Cell width="4">{this.formatDate(transaction.date)}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
@@ -201,6 +201,58 @@ export default class Diagnosis extends Component {
         </Container>
       </AuthBoilerplate>
     )
+  }
+
+  markAsMedicalError = async (id) => {
+    const accounts = await web3.eth.getAccounts();
+    const medicalRecordID = this.props.match.params.id;
+    const medicalRecordAddress = await contract.methods.getMedicalRecord(medicalRecordID).call()
+    let medicalRecordContract = await new web3.eth.Contract(
+        medicalRecordABI, 
+        medicalRecordAddress
+      ); 
+
+
+    // mark for reusability 
+    await medicalRecordContract.methods.markTransactionAsMedicalError(3, id).send({ from: accounts[0], gas: '200000000' })
+    .then(async() => {
+      let cloned = cloneDeep(this.state.transactions);
+      for(let i = 0; i < cloned.length; i++){
+        if (cloned[i].id == id) {
+          if (cloned[i].isCorrectionFor !== '') {
+            // mark for reusability
+            // this is a hack for the transactions 
+            // that are a correction for other trasaction , 
+            // so you have to mark the corrected transactions 
+            // as medical erros as well
+            await medicalRecordContract.methods.markTransactionAsMedicalError(3, cloned[i].isCorrectionFor).send({ from: accounts[0], gas: '200000000' })
+          }
+          cloned[i].isCorrectionFor = 'true';
+        }
+      }
+      this.setState({transactions: cloned});
+      // mark for reusability 
+      toast.success("Diagnosis has been set as a medical error.", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        width: 200,
+      });
+    })
+    .catch(() => {
+      toast.error("Error : Something worng happened", {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        width: 200,
+      });
+    })
   }
 
   formatDate = (_date) => {
