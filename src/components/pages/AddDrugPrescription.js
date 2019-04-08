@@ -20,8 +20,81 @@ export default class AddDrugPrescription extends Component {
     drugPrescriptionsInput: [{ drugName: '', quantity: '', doctorComment: '', isDispensed: false }]
   }
 
+  componentDidMount() {
+    this.getTransactions();
+  }
+
+  getTransactions = async () => {
+    const accounts = await web3.eth.getAccounts();
+    const medicalRecordID = this.props.match.params.id;
+    const medicalRecordAddress = await contract.methods.getMedicalRecord(medicalRecordID).call()
+    let medicalRecordContract = await new web3.eth.Contract(
+        medicalRecordABI, 
+        medicalRecordAddress
+      ); 
+    
+    let transactionsList = [];
+      // mark for reusability 
+    let transactionsCount = await medicalRecordContract.methods.drugPrescribtionsCount().call();
+    if (transactionsCount == 0) {
+      this.setState({noTransactions: true});
+    }
+    for (let i = 0; i < transactionsCount; i++) {
+        // mark for reusability 
+      let newTransaction = await medicalRecordContract.methods.drugPrescribtions(i).call();
+      transactionsList.push(newTransaction);
+    }
+    this.setState({transactions: transactionsList});
+    this.filterCorrectedTransactions();
+  }
+
+  // checkes if the transaction is correted or not
+  filterCorrectedTransactions = () => {
+    let erroneousTransactions = [];
+    let transactions = this.state.transactions;
+    for(let i = 0; i < transactions.length; i++) {
+      if (transactions[i].isCorrectionFor !== '' && transactions[i].isCorrectionFor !== 'true') {
+        erroneousTransactions.push({id: transactions[i].isCorrectionFor, correctedBy: transactions[i].id});
+      }
+    }
+    this.setState({erroneousTransactions});
+  }
+
+  // check by id if specific transaction is corrected
+  isCorrected = (id) => {
+    let erroneousTransactions = this.state.erroneousTransactions;
+    for (let i = 0; i < erroneousTransactions.length; i++) {
+      if (erroneousTransactions[i].id == id) {
+        return {result: true, correctedBy: erroneousTransactions[i].correctedBy};
+      }
+    }
+    return {result: false};
+  }
+
+  isNotOld = (time) => {
+    let now = new Date();
+    const minutes = 30;
+    if (parseInt(time) + (60 * minutes) >= parseInt((now.getTime() + '').substring(0,10))) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   render() {
+    // filtering the transactions to eleminate the erroneous ones
     let transactions = [];
+    let allTransactions = this.state.transactions;
+    for (let i = 0; i < allTransactions.length; i++) {
+      // adding transactions that are not marked as medical errors and not correted
+      if (allTransactions[i].isCorrectionFor == '' && this.isCorrected(allTransactions[i].id).result == false && this.isNotOld(allTransactions[i].date) == false) {
+        transactions.push({
+          key: i,
+          text: `ID: ${allTransactions[i].id} , Name: ${allTransactions[i].surgeryName}`,
+          value: allTransactions[i].id
+        })
+      }
+    }
 
     const drugPrescriptionFields = this.state.drugPrescriptionsInput.map((drugPrescription, index) => {
       return (
@@ -52,7 +125,7 @@ export default class AddDrugPrescription extends Component {
       <AuthBoilerplate history={this.props.history}>
         <Container padded="true" style={{ padding: '20px' }} fluid>
           <Segment>
-            <h3 style={{display: 'inline'}}>Add New Surgery</h3> 
+            <h3 style={{display: 'inline'}}>Add New Drug Prescription</h3> 
               <Button 
                 icon
                 labelPosition="left"
