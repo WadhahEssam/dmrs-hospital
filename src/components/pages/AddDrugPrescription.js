@@ -20,10 +20,6 @@ export default class AddDrugPrescription extends Component {
     drugPrescriptionsInput: [{ drugName: '', quantity: '', doctorComment: '', isDispensed: false }]
   }
 
-  componentDidUpdate() {
-    console.log(this.state)
-  }
-
   render() {
     let transactions = [];
 
@@ -46,8 +42,8 @@ export default class AddDrugPrescription extends Component {
             <Form.Input
               onChange={(e)=>{this.onDrugCommentChange(e,index)}}
               width={8}
-              label="Doctor Comment" 
-              placeholder="" 
+              label="Doctor Comment (Optional)" 
+              placeholder="(Optional)" 
             />
         </Form.Group>
       )
@@ -160,4 +156,65 @@ export default class AddDrugPrescription extends Component {
     this.setState({drugPrescriptionsInput: clonedPrescriptions});
   }
 
+  checkDrugsValidity = (drugs) => {
+    for (let i = 0; i < drugs.length; i++) {
+      if (drugs[i].drugName == '') {
+        return `please insert name for drug number ${i+1}`
+      } else if (drugs[i].quantity == '') {
+        return `please insert the quantity for drug number ${i+1}`
+      } 
+    }
+    return null;
+  }
+
+  addNewTransaction = async () => {
+    const newTransaction = this.state;
+    if (newTransaction.doctor == '') {
+      this.setState({isError: true, errorMessage: 'please insert the doctor name'});
+    } else if (newTransaction.isCorrection == true && newTransaction.correctionFor == '') {
+      this.setState({isError: true, errorMessage: 'please select the erroneous transaction'});
+    } else if (this.checkDrugsValidity(newTransaction.drugPrescriptionsInput) != null) {
+      this.setState({isError: true, errorMessage: this.checkDrugsValidity(newTransaction.drugPrescriptionsInput)});
+    } else {
+      this.setState({isError: false});
+      console.log(this.state.drugPrescriptionsInput);
+      const accounts = await web3.eth.getAccounts();
+      const medicalRecordID = this.props.match.params.id;
+      const medicalRecordAddress = await contract.methods.getMedicalRecord(medicalRecordID).call()
+      let medicalRecordContract = await new web3.eth.Contract(
+          medicalRecordABI, 
+          medicalRecordAddress
+        ); 
+      let isCorrectionFor = '';
+      if (newTransaction.isCorrection == true) {
+        isCorrectionFor = newTransaction.correctionFor;
+      } 
+      await medicalRecordContract.methods.addDrugPrescribtion('King Khaled Hospital', newTransaction.doctor, JSON.stringify(newTransaction.drugPrescriptionsInput), isCorrectionFor)
+      .send({ from: accounts[0], gas: '200000000' })
+      .then(() => {
+        toast.success("New drug prescription added successfully", {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          width: 200,
+        });
+      })
+      .catch(() => {
+        toast.error("Error : Something worng happened", {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          width: 200,
+        });
+      })
+
+      this.props.history.replace(`drugPrescription`);
+    }    
+  }
 }
