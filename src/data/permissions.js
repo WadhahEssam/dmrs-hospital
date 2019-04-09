@@ -25,6 +25,10 @@ let permissions = {
     name: 'Create Record',
     color: 'teal'
   },
+  "prescriptions": {
+    name: "Medical Prescriptions",
+    color: "olive"
+  },
   "view": {
     name: 'Open Record',
     color: 'grey'

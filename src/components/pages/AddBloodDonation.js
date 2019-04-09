@@ -20,7 +20,6 @@ export default class AddBloodDonation extends Component {
     erroneousTransactions: [],
   }
 
-
   componentDidMount() {
     this.getTransactions();
   }
@@ -146,7 +145,7 @@ export default class AddBloodDonation extends Component {
                   <Form.Input 
                     onChange={(e, {value}) => {this.setState({amount: value})}}
                     fluid 
-                    number
+                    type="number"
                     placeholder="eg. 1.2" 
                     type="number" 
                   />

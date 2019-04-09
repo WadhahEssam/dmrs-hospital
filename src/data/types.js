@@ -14,17 +14,17 @@ let types = {
   "doctor": {
     name: 'doctor',
     canCreate: false,
-    permissions: [ permissions['surgeries'], permissions['labTests'], permissions['bloodDonations'], permissions['radiology'], permissions['diagnosis'] ]
+    permissions: [ permissions['surgeries'], permissions['labTests'], permissions['bloodDonations'], permissions['radiology'], permissions['diagnosis'], permissions['prescriptions'], permissions['view']]
   },
   "radiologist": {
     name: 'radiologist',
     canCreate: false,
-    permissions: [permissions['radiology']]
+    permissions: [permissions['radiology'], permissions['view']]
   },
   "laboratoryTechnician": {
     name: 'laboratoryTechnician',
     canCreate: false,
-    permissions: [permissions['labTests']],
+    permissions: [permissions['labTests'], permissions['view']],
   }
 }
 

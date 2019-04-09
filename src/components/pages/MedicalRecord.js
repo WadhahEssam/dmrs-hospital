@@ -30,20 +30,32 @@ class MedicalRecord extends Component {
         hospitalName: '',
         name: '',
         blockchainAdderss: '',
+        user: '',
     };
 
     componentWillMount() {
+        let user = JSON.parse(localStorage.getItem('user'));
         this.fetchMedicalRecordInformation();
-        this.setState({id: this.props.match.params.id})
+        this.setState({id: this.props.match.params.id, user})
     }
 
-    componentDidUpdate() {
-        console.log(this.state);
+    checkPermission(permission) {
+        if (this.state.user == '') {
+            return false;
+        } 
+        let userPermissions = this.state.user.type.permissions;
+        for (let i = 0; i<userPermissions.length; i++) {
+            if (permission == userPermissions[i].name) {
+                return true;
+            }
+        }
+        return false;
     }
 
     render() {
         const cardPlaceholderPath = '/card-placeholder.png'
         const padding = "20px"
+        const cardDisabled = { background: '#ffe8e8', opacity: '0.3' };
         
         return (
             <AuthBoilerplate>
@@ -107,8 +119,8 @@ class MedicalRecord extends Component {
                     </Segment>
                     <Segment>
                         <Card.Group centered>
-                        <Link style={{ padding }} to={`/${this.state.id}/diagnosis`}>
-                            <Card color="orange" raised>
+                        <Link style={{ padding }} to={ (this.checkPermission('Diagnosis')) ? `/${this.state.id}/diagnosis` : `/${this.state.id}/medicalRecord`}>
+                            <Card style={(this.checkPermission('Diagnosis')) ? {} : cardDisabled} color="orange" raised>
                             <div style={{ height: "242px" }}>
                                 <Image
                                 centered
@@ -122,8 +134,8 @@ class MedicalRecord extends Component {
                             </Card.Content>
                             </Card>
                         </Link>
-                        <Link style={{ padding }} to={`/${this.state.id}/surgeries`}>
-                            <Card color="orange" raised>
+                        <Link style={{ padding }} to={ (this.checkPermission('Surgeries')) ? `/${this.state.id}/surgeries` : `/${this.state.id}/medicalRecord`}>
+                            <Card style={(this.checkPermission('Surgeries')) ? {} : cardDisabled} color="orange" raised>
                             <div style={{ height: "242px" }}>
                                 <Image
                                 centered
@@ -137,8 +149,9 @@ class MedicalRecord extends Component {
                             </Card.Content>
                             </Card>
                         </Link>
-                        <Link style={{ padding }} to={`/${this.state.id}/labTests`}>
-                            <Card color="orange" raised>
+
+                        <Link style={{ padding }} to={ (this.checkPermission('Lab Tests')) ? `/${this.state.id}/labTests` : `/${this.state.id}/medicalRecord`}> 
+                            <Card style={(this.checkPermission('Lab Tests')) ? {} : cardDisabled} color="orange" raised>
                             <div style={{ height: "242px" }}>
                                 <Image
                                 centered
@@ -152,8 +165,8 @@ class MedicalRecord extends Component {
                             </Card.Content>
                             </Card>
                         </Link>
-                        <Link style={{ padding }} to={`/${this.state.id}/radiologyScans`}>
-                        <Card color="orange" raised>
+                        <Link style={{ padding }} to={ (this.checkPermission('Radiology')) ? `/${this.state.id}/radiologyScans` : `/${this.state.id}/medicalRecord`}>
+                        <Card style={(this.checkPermission('Radiology')) ? {} : cardDisabled} color="orange" raised>
                             <div style={{ height: "242px" }}>
                                 <Image
                                 centered
@@ -168,10 +181,9 @@ class MedicalRecord extends Component {
                             </Card>
                         </Link>
                         <Link
-                            style={{ padding }}
-                            to={`/${this.state.id}/medicalPrescriptions`}
+                            style={{ padding }} to={ (this.checkPermission('Medical Prescriptions')) ? `/${this.state.id}/medicalPrescriptions` : `/${this.state.id}/medicalRecord`}
                         >
-                            <Card color="orange" raised>
+                            <Card color="orange" raised  style={(this.checkPermission('Medical Prescriptions')) ? {} : cardDisabled}>
                             <div style={{ height: "242px" }}>
                                 <Image
                                 centered
@@ -187,9 +199,9 @@ class MedicalRecord extends Component {
                         </Link>
                         <Link
                             style={{ padding }}
-                            to={`/${this.state.id}/bloodDonations`}
+                            to={ (this.checkPermission('Blood Donations')) ? `/${this.state.id}/bloodDonations` : `/${this.state.id}/medicalRecord`}
                         >
-                            <Card color="orange" raised>
+                            <Card color="orange" raised style={(this.checkPermission('Blood Donations')) ? {} : cardDisabled}>
                             <div style={{ height: "242px" }}>
                                 <Image
                                 centered
