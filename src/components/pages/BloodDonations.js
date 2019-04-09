@@ -97,11 +97,11 @@ export default class BloodDonations extends Component {
 
       let label = null;
       if (this.isCorrected(transaction.id).result) {
-        label = <Label color='red' ribbon>Medical Error : has been corrected by surgery with ID ( {this.isCorrected(transaction.id).correctedBy} )</Label> 
+        label = <Label color='red' ribbon>Medical Error : has been corrected by blood donation with ID ( {this.isCorrected(transaction.id).correctedBy} )</Label> 
       } else if (transaction.isCorrectionFor == 'true') {
         label = <Label color='red' ribbon>Medical Error</Label> 
       } else if (transaction.isCorrectionFor !== '') {
-        label = <Label color='blue' ribbon>Is Correction For Surgery With ID ( {transaction.isCorrectionFor} ) </Label> 
+        label = <Label color='blue' ribbon>Is Correction For Blood Donation With ID ( {transaction.isCorrectionFor} ) </Label> 
       }
 
       return (
@@ -120,7 +120,7 @@ export default class BloodDonations extends Component {
                         <Table.Cell active>Blood Donation Type</Table.Cell>
                         <Table.Cell>{transaction.donationType}</Table.Cell>
                         <Table.Cell active>Amount</Table.Cell>
-                        <Table.Cell>{parseFloat(transaction.amount) * 0.001} Liters</Table.Cell>
+                        <Table.Cell>{(parseFloat(transaction.amount) * 0.001).toFixed(2)} Liters</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell active>Hospital</Table.Cell>
