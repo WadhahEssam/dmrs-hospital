@@ -152,7 +152,7 @@ class MedicalRecord extends Component {
                             </Card.Content>
                             </Card>
                         </Link>
-                        <Link style={{ padding }} to={`/${this.state.id}/radioScans`}>
+                        <Link style={{ padding }} to={`/${this.state.id}/radiologyScans`}>
                         <Card color="orange" raised>
                             <div style={{ height: "242px" }}>
                                 <Image

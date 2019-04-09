@@ -170,6 +170,53 @@ const medicalRecordABI = [
 	},
 	{
 		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "radiologies",
+		"outputs": [
+			{
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"name": "radiologist",
+				"type": "string"
+			},
+			{
+				"name": "date",
+				"type": "uint256"
+			},
+			{
+				"name": "radiologyType",
+				"type": "string"
+			},
+			{
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"name": "isCorrectionFor",
+				"type": "string"
+			},
+			{
+				"name": "hospitalName",
+				"type": "string"
+			},
+			{
+				"name": "fileHash",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [],
 		"name": "laboratoryTestsCount",
 		"outputs": [
@@ -436,6 +483,40 @@ const medicalRecordABI = [
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_hospitalName",
+				"type": "string"
+			},
+			{
+				"name": "_radiologistName",
+				"type": "string"
+			},
+			{
+				"name": "_radiologyType",
+				"type": "string"
+			},
+			{
+				"name": "_description",
+				"type": "string"
+			},
+			{
+				"name": "_fileHash",
+				"type": "string"
+			},
+			{
+				"name": "_isCorrectionFor",
+				"type": "string"
+			}
+		],
+		"name": "addRadiology",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [],
 		"name": "bloodDonationsCount",
@@ -672,6 +753,20 @@ const medicalRecordABI = [
 		"type": "function"
 	},
 	{
+		"constant": true,
+		"inputs": [],
+		"name": "radiologiesCount",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"name": "nationalIDI",
@@ -711,5 +806,4 @@ const medicalRecordABI = [
 		"type": "constructor"
 	}
 ]
-
 export default medicalRecordABI;

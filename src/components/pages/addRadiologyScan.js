@@ -8,10 +8,10 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import imageHasherServer from '../../imageHasherServer';
 
-export default class AddLabTest extends Component {
+export default class addRadiologyScan extends Component {
   state = {
-    testType: '',
-    workerName: '',
+    radiologyScanType: '',
+    radiologistName: '',
     fileHash: '',
     extraInformation: '',
     isCorrection: false,
@@ -38,13 +38,13 @@ export default class AddLabTest extends Component {
     
     let transactionsList = [];
       // mark for reusability 
-    let transactionsCount = await medicalRecordContract.methods.laboratoryTestsCount().call();
+    let transactionsCount = await medicalRecordContract.methods.radiologiesCount().call();
     if (transactionsCount == 0) {
       this.setState({noTransactions: true});
     }
     for (let i = 0; i < transactionsCount; i++) {
         // mark for reusability 
-      let newTransaction = await medicalRecordContract.methods.laboratoryTests(i).call();
+      let newTransaction = await medicalRecordContract.methods.radiologies(i).call();
       transactionsList.push(newTransaction);
     }
     this.setState({transactions: transactionsList});
@@ -93,7 +93,7 @@ export default class AddLabTest extends Component {
       if (allTransactions[i].isCorrectionFor == '' && this.isCorrected(allTransactions[i].id).result == false && this.isNotOld(allTransactions[i].date) == false) {
         transactions.push({
           key: i,
-          text: `ID: ${allTransactions[i].id} , Test Type: ${allTransactions[i].testType}`,
+          text: `ID: ${allTransactions[i].id} , Radiology Type: ${allTransactions[i].radiologyType}`,
           value: allTransactions[i].id
         })
       }
@@ -103,13 +103,13 @@ export default class AddLabTest extends Component {
       <AuthBoilerplate history={this.props.history}>
         <Container padded="true" style={{ padding: '20px' }} fluid>
           <Segment>
-            <h3 style={{display: 'inline'}}>Add New Lab Test</h3> 
+            <h3 style={{display: 'inline'}}>Add New Radiology Scan</h3> 
               <Button 
                 icon
                 labelPosition="left"
                 color="grey" 
                 style={{position: 'absolute', right: '20px'}}
-                onClick={() => {this.props.history.replace(`labTests`)}}
+                onClick={() => {this.props.history.replace(`radiologyScans`)}}
               >
                 <Icon name="arrow left"/>
                 Go Back
@@ -124,26 +124,26 @@ export default class AddLabTest extends Component {
             <Form.Group widths='equal'>
                 <Form.Field>
                   <Form.Input 
-                    onChange={(e, {value}) => {this.setState({testType: value})}}
+                    onChange={(e, {value}) => {this.setState({radiologyScanType: value})}}
                     fluid 
-                    label="Test Type" 
-                    placeholder="eg. Complete Blood Count" 
+                    label="Radiology Scan Type" 
+                    placeholder="eg. Chest Scan" 
                   />
                 </Form.Field>
               </Form.Group>
               <Form.Group widths='equal'>
                 <Form.Field>
                   <Form.Input 
-                    onChange={(e, {value}) => {this.setState({workerName: value})}}
+                    onChange={(e, {value}) => {this.setState({radiologistName: value})}}
                     fluid 
-                    label="Lab Worder Name" 
+                    label="Radiologist Name" 
                     placeholder="eg. Mohammed" 
                   />
                 </Form.Field>
               </Form.Group>
               <Form.Group widths='equal'>
                 <Form.Field>
-                  <h6>Lab Test Image</h6>
+                  <h6>Radiology Scan File</h6>
                   <Label width="4" as="label" htmlFor="file" size="big">
                   <Icon name="file" />
                   Click here to attach an image
@@ -177,7 +177,7 @@ export default class AddLabTest extends Component {
                 ) : 
                 <div/>
               }
-              <Button primary onClick={this.addNewTransaction}>Add Lab Test</Button>
+              <Button primary onClick={this.addNewTransaction}>Add Radiolgy Scan</Button>
             </Form>
           </Segment>
         </Container>
@@ -208,10 +208,12 @@ export default class AddLabTest extends Component {
 
   addNewTransaction = async () => {
     const newTransaction = this.state;
-    if (newTransaction.testType == '') {
-      this.setState({isError: true, errorMessage: 'please insert the test type '});
+    if (newTransaction.radiologyScanType == '') {
+      this.setState({isError: true, errorMessage: 'please insert the radiology scan type '});
     } else if (newTransaction.fileHash == '') {
-      this.setState({isError: true, errorMessage: 'please choose a file for the lab test'});
+      this.setState({isError: true, errorMessage: 'please upload a file for the radiology scan'});
+    } else if (newTransaction.radiologistName == '') {
+      this.setState({isError: true, errorMessage: 'please insert the name of the radiologist who did the sacn'});
     } else if (newTransaction.isCorrection == true && newTransaction.correctionFor == '') {
       this.setState({isError: true, errorMessage: 'please select the erroneous transaction'});
     } else {
@@ -228,10 +230,10 @@ export default class AddLabTest extends Component {
         isCorrectionFor = newTransaction.correctionFor;
       } 
 
-      await medicalRecordContract.methods.addLaboratoryTest('King Khaled Hospital', newTransaction.workerName, newTransaction.testType, newTransaction.extraInformation, newTransaction.fileHash, isCorrectionFor)
+      await medicalRecordContract.methods.addRadiology('King Khaled Hospital', newTransaction.radiologistName, newTransaction.radiologyScanType, newTransaction.extraInformation, newTransaction.fileHash, isCorrectionFor)
       .send({ from: accounts[0], gas: '200000000' })
       .then(() => {
-        toast.success("New lab test added successfully", {
+        toast.success("New radiology scan added successfully", {
           position: "bottom-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -253,10 +255,7 @@ export default class AddLabTest extends Component {
         });
       })
       
-
-      this.props.history.replace(`labTests`);
+      this.props.history.replace(`radiologyScans`);
     }
   }
-
-
 }

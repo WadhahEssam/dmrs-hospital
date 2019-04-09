@@ -12,12 +12,10 @@ import Home from './components/pages/Home';
 import CreateMedicalRecord from './components/pages/CreateMedicalRecord';
 import LabTestForm from './components/pages/LabTestForm';
 import MedicalRecord from './components/pages/MedicalRecord'
-import RadioScanForm from './components/pages/RadioScanForm'
 import Surgeries from './components/pages/Surgeries'
 import AddSurgery from './components/pages/AddSurgery';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import RadioScans from './components/pages/RadioScans';
 import LabTests from './components/pages/LabTests';
 import AddLabTest from './components/pages/AddLabTest';
 import DrugPrescriptions from './components/pages/DrugPrescriptions';
@@ -26,6 +24,8 @@ import Diagnosis from './components/pages/Diagnosis';
 import AddDiagnosis from './components/pages/AddDiagnosis';
 import BloodDonations from './components/pages/BloodDonations';
 import AddBloodDonation from './components/pages/AddBloodDonation';
+import RadiologyScans from './components/pages/RadiologyScans';
+import addRadiologyScan from './components/pages/addRadiologyScan';
 
 class App extends Component {
 
@@ -61,10 +61,8 @@ class App extends Component {
               )}/>
               <Route path="/labTest" component={LabTestForm} />
               <Route path="/:id/medicalRecord" component={MedicalRecord} />
-              <Route path="/radioScan" component={RadioScanForm} />
               <Route path="/:id/surgeries" component={Surgeries} />
               <Route path="/:id/addSurgery" component={AddSurgery} />
-              <Route path="/:id/radioScans" component={RadioScans} />
               <Route path="/:id/labTests" component={LabTests} />
               <Route path="/:id/addLabTest" component={AddLabTest} />
               <Route path="/:id/medicalPrescriptions" component={DrugPrescriptions} />
@@ -72,7 +70,9 @@ class App extends Component {
               <Route path="/:id/diagnosis" component={Diagnosis} />
               <Route path="/:id/addDiagnosis" component={AddDiagnosis} />
               <Route path="/:id/bloodDonations" component={BloodDonations} />
-              <Route path="/:id/addBloodDonation" component={AddBloodDonation} />
+              <Route path="/:id/addBloodDonation" component={AddBloodDonation} />              <Route path="/:id/bloodDonations" component={BloodDonations} />
+              <Route path="/:id/radiologyScans" component={RadiologyScans} />              <Route path="/:id/bloodDonations" component={BloodDonations} />
+              <Route path="/:id/addRadiologyScan" component={addRadiologyScan} />
             </Switch>
           </div>
         </BrowserRouter>
