@@ -24,6 +24,8 @@ import DrugPrescriptions from './components/pages/DrugPrescriptions';
 import AddDrugPrescription from './components/pages/AddDrugPrescription';
 import Diagnosis from './components/pages/Diagnosis';
 import AddDiagnosis from './components/pages/AddDiagnosis';
+import BloodDonations from './components/pages/BloodDonations';
+import AddBloodDonation from './components/pages/AddBloodDonation';
 
 class App extends Component {
 
@@ -69,6 +71,8 @@ class App extends Component {
               <Route path="/:id/addMedicalPrescription" component={AddDrugPrescription} />
               <Route path="/:id/diagnosis" component={Diagnosis} />
               <Route path="/:id/addDiagnosis" component={AddDiagnosis} />
+              <Route path="/:id/bloodDonations" component={BloodDonations} />
+              <Route path="/:id/addBloodDonation" component={AddBloodDonation} />
             </Switch>
           </div>
         </BrowserRouter>
