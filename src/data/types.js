@@ -9,7 +9,7 @@ let types = {
   "receptionist" : {
     name: 'receptionist',
     canCreate: true,
-    permissions: []
+    permissions: [ permissions['create'], permissions['view'] ]
   },
   "doctor": {
     name: 'doctor',

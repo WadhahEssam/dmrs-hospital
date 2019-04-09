@@ -21,6 +21,14 @@ let permissions = {
     name: 'Diagnosis',
     color: 'orange',
   },
+  "create": {
+    name: 'Create Record',
+    color: 'teal'
+  },
+  "view": {
+    name: 'Open Record',
+    color: 'grey'
+  }
 }
 
 export default permissions;
