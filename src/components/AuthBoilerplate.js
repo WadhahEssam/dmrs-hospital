@@ -46,11 +46,12 @@ class AuthBoilerplate extends Component {
         <div>
 
           {/* Navbar Menu */}
-          <Menu attached size='tiny'>
+          <Menu inverted pointing size='large' style={{margin: '10px'}}>
             <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
             <Menu.Menu position='right'>
               <Menu.Item>
                 King Abdullah Hospital
+                <img src="logo.png" style={{marginLeft: '10px'}} />
               </Menu.Item>
               <Menu.Item>
                 <Button onClick={this.handleLogout} color="red">Sign Out</Button>
@@ -64,7 +65,7 @@ class AuthBoilerplate extends Component {
                 {/* User Card */}
                 <Grid.Row>
                   <Card fluid>
-                    <Image src='/doctor-profile-picture.jpg' />
+                    <Image src='/doctor-profile-picture.jpg' style={{height: '350px'}}/>
                     <Card.Content>
                       <Card.Header>{user.username}</Card.Header>
                       <Card.Meta>
