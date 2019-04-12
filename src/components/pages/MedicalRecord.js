@@ -65,8 +65,8 @@ class MedicalRecord extends Component {
                         <h3>{this.state.name}'s Medical Record</h3>
                     </Segment>
 
-                    <Segment loading={this.state.isLoading}>
-                        <Grid columns={2} divided>
+                    <Segment inverted color='teal' loading={this.state.isLoading}>
+                        <Grid columns={2} >
                             <Grid.Column>
                                 <Table celled>
                                     <Table.Body>
