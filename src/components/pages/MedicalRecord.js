@@ -31,6 +31,7 @@ class MedicalRecord extends Component {
         name: '',
         blockchainAdderss: '',
         user: '',
+        isLoading: true,
     };
 
     componentWillMount() {
@@ -60,11 +61,11 @@ class MedicalRecord extends Component {
         return (
             <AuthBoilerplate>
                 <Container padded="true" style={{ padding: "20px" }}>
-                    <Segment>
+                    <Segment loading={this.state.isLoading}>
                         <h3>{this.state.name}'s Medical Record</h3>
                     </Segment>
 
-                    <Segment>
+                    <Segment loading={this.state.isLoading}>
                         <Grid columns={2} divided>
                             <Grid.Column>
                                 <Table celled>
@@ -117,7 +118,7 @@ class MedicalRecord extends Component {
                             </Grid.Column>
                         </Grid>
                     </Segment>
-                    <Segment>
+                    <Segment loading={this.state.isLoading}>
                         <Card.Group centered>
                         <Link style={{ padding }} to={ (this.checkPermission('Diagnosis')) ? `/${this.state.id}/diagnosis` : `/${this.state.id}/medicalRecord`}>
                             <Card style={(this.checkPermission('Diagnosis')) ? {} : cardDisabled} color="orange" raised>
@@ -246,7 +247,8 @@ class MedicalRecord extends Component {
             bloodType,
             emergencyContact,
             hospitalName,
-            blockchainAdderss: medicalRecordAddress.substring(0,20) + '...'
+            blockchainAdderss: medicalRecordAddress.substring(0,20) + '...',
+            isLoading: false,
         });
     }
 }
