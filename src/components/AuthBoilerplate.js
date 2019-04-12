@@ -2,21 +2,17 @@ import React, { Component } from 'react';
 import { Button, Menu, Grid, Image, Card , Label, Icon } from 'semantic-ui-react';
 import ErrorPage from './pages/ErrorPage';
 import { withRouter } from 'react-router-dom'
+import { timingSafeEqual } from 'crypto';
 
 class AuthBoilerplate extends Component {
   state = {
     userIsSigned: false,
     user: null,
-    activeItem: 'home',
+    activeItem: this.props.history.location.pathname,
   }
 
   componentDidMount() {
     this.checkUser();
-  }
-
-  handleItemClick = (e, { name }) => {
-    this.setState({ activeItem: name })
-    this.props.history.push('/home')
   }
 
   generatePermissionLabels(user) {
@@ -40,7 +36,6 @@ class AuthBoilerplate extends Component {
 
   render() {
     const { activeItem, user } = this.state
-
     if (this.state.userIsSigned) {
       return (
         <div>
@@ -51,7 +46,7 @@ class AuthBoilerplate extends Component {
             <Menu.Menu position='right'>
               <Menu.Item>
                 King Abdullah Hospital
-                <img src="logo.png" style={{marginLeft: '10px'}} />
+                <img src="/logo.png" style={{marginLeft: '10px'}} />
               </Menu.Item>
               <Menu.Item>
                 <Button onClick={this.handleLogout} color="red">Sign Out</Button>
@@ -83,18 +78,7 @@ class AuthBoilerplate extends Component {
                 </Grid.Row>
 
                 {/* Side Menu */}
-                <Grid.Row style={{marginTop: '30px', maxWidth: '280px'}}>
-                  <Menu fluid vertical>
-                    <Menu.Item name='openMedicalRecord' active={activeItem === 'openMedicalRecord'} onClick={this.handleItemClick}>
-                      <Icon name="address card" color="teal"/>
-                      Open medical record
-                    </Menu.Item>
-                    <Menu.Item name='spam' active={activeItem === 'spam'} onClick={this.handleItemClick}>
-                      <Icon name="add user" color="teal"/>
-                      Create medical recrod
-                    </Menu.Item>
-                  </Menu>
-                </Grid.Row>
+                {this.renderSideMenu()}
               </Grid.Column>
 
               {/* Content */}
@@ -112,6 +96,38 @@ class AuthBoilerplate extends Component {
         </h1>
       );
     }
+  }
+
+  renderSideMenu = () => {
+    const { activeItem, user } = this.state
+    const currentPage = this.props.history.location.pathname;
+    console.log(currentPage)
+    
+    if (currentPage == '/home') {
+      return (
+        <Grid.Row style={{marginTop: '30px', maxWidth: '280px'}}>
+          <Menu fluid vertical>
+            <Menu.Item name='/home' active={activeItem === '/home'} onClick={this.handleItemClick}>
+              <Icon name="address card" color="teal"/>
+              Home
+            </Menu.Item>
+            <Menu.Item style={{color: 'red', fontWeight: '400'}} name='/signout' active={activeItem === '/signout'} onClick={this.handleLogout}>
+              <Icon name="add user" color="teal"/>
+              Signout
+            </Menu.Item>
+          </Menu>
+        </Grid.Row>
+      )
+    } else {
+      return (
+        <React.Fragment/>
+      )
+    }
+  }
+
+  handleItemClick = (e, { name }) => {
+    this.setState({ activeItem: name })
+    this.props.history.push(name)
   }
 
   handleLogout = () => {
