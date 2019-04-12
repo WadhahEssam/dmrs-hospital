@@ -101,7 +101,6 @@ class AuthBoilerplate extends Component {
   renderSideMenu = () => {
     const { activeItem, user } = this.state
     const currentPage = this.props.history.location.pathname;
-    console.log(currentPage)
     
     if (currentPage == '/home') {
       return (
@@ -112,7 +111,7 @@ class AuthBoilerplate extends Component {
               Home
             </Menu.Item>
             <Menu.Item style={{color: 'red', fontWeight: '400'}} name='/signout' active={activeItem === '/signout'} onClick={this.handleLogout}>
-              <Icon name="add user" color="teal"/>
+              <Icon name="sign-out" color="teal"/>
               Signout
             </Menu.Item>
           </Menu>
@@ -120,14 +119,54 @@ class AuthBoilerplate extends Component {
       )
     } else {
       return (
-        <React.Fragment/>
+        <Grid.Row style={{marginTop: '30px', maxWidth: '280px'}}>
+          <Menu fluid vertical>
+            <Menu.Item name='/home' active={activeItem === '/home'} onClick={this.handleItemClick}>
+              <Icon name="home" color="teal"/>
+              Home
+            </Menu.Item>
+            <Menu.Item name='/medicalRecord' active={activeItem === '/medicalReocrd'} onClick={this.handleItemClick}>
+              <Icon name="address card" color="black"/>
+              Medical Record Information
+            </Menu.Item>
+            <Menu.Item name='/diagnosis' active={activeItem === '/diagnosis'} onClick={this.handleItemClick}>
+              Diagnosis
+            </Menu.Item>
+            <Menu.Item name='/surgeries' active={activeItem === '/surgeries'} onClick={this.handleItemClick}>
+              Surgeries
+            </Menu.Item>
+            <Menu.Item name='/labTests' active={activeItem === '/labTests'} onClick={this.handleItemClick}>
+              Lab Tests
+            </Menu.Item>
+            <Menu.Item name='/radiologyScans' active={activeItem === '/radiologyScans'} onClick={this.handleItemClick}>
+              Radiology Scans
+            </Menu.Item>
+            <Menu.Item name='/medicalPrescriptions' active={activeItem === '/medicalPrescriptions'} onClick={this.handleItemClick}>
+              Medical Prescriptions
+            </Menu.Item>
+            <Menu.Item name='/bloodDonations' active={activeItem === '/bloodDonations'} onClick={this.handleItemClick}>
+              Blood Donations
+            </Menu.Item>
+            <Menu.Item style={{color: 'red', fontWeight: '700'}} name='/signout' active={activeItem === '/signout'} onClick={this.handleLogout}>
+              <Icon name="sign-out" color="red"/>
+              Signout
+            </Menu.Item>
+          </Menu>
+        </Grid.Row>
       )
     }
   }
 
   handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name })
-    this.props.history.push(name)
+    let id = this.props.match.params.id;
+    console.log(name);
+    if (name == '/home') {
+      window.location.href = `..${name}` 
+    }
+    else if (id != null) {
+      window.location.href = `../${id}${name}` 
+    } 
   }
 
   handleLogout = () => {
