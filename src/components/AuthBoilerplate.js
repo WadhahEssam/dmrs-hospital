@@ -64,7 +64,7 @@ class AuthBoilerplate extends Component {
         
                 {/* User Card */}
                 <Grid.Row>
-                  <Card fluid>
+                  <Card fluid style={{maxWidth: '280px'}}>
                     <Image src='/doctor-profile-picture.jpg' style={{height: '350px'}}/>
                     <Card.Content>
                       <Card.Header>{user.username}</Card.Header>
@@ -83,7 +83,7 @@ class AuthBoilerplate extends Component {
                 </Grid.Row>
 
                 {/* Side Menu */}
-                <Grid.Row style={{marginTop: '30px'}}>
+                <Grid.Row style={{marginTop: '30px', maxWidth: '280px'}}>
                   <Menu fluid vertical>
                     <Menu.Item name='openMedicalRecord' active={activeItem === 'openMedicalRecord'} onClick={this.handleItemClick}>
                       <Icon name="address card" color="teal"/>
