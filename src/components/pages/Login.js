@@ -64,6 +64,14 @@ class Login extends Component {
               height: 156px !important;
               width: 430px !important;
             }
+            body {
+              background: url('/background8.jpg')no-repeat center center fixed;
+              -webkit-background-size: cover;
+              -moz-background-size: cover;
+              -o-background-size: cover;
+              background-size: cover;
+              background-color: #5d5d5d;
+            }
           `}</style>
 
           <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
