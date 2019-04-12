@@ -101,7 +101,10 @@ class AuthBoilerplate extends Component {
   renderSideMenu = () => {
     const { activeItem, user } = this.state
     const currentPage = this.props.history.location.pathname;
-    
+    const userType = this.state.user.type.name;
+    console.log(userType);
+
+    console.log(this.props.history);
     if (currentPage == '/home') {
       return (
         <Grid.Row style={{marginTop: '30px', maxWidth: '280px'}}>
@@ -117,7 +120,7 @@ class AuthBoilerplate extends Component {
           </Menu>
         </Grid.Row>
       )
-    } else {
+    } else if (userType == 'doctor') {
       return (
         <Grid.Row style={{marginTop: '30px', maxWidth: '280px'}}>
           <Menu fluid vertical>
@@ -146,6 +149,65 @@ class AuthBoilerplate extends Component {
             </Menu.Item>
             <Menu.Item name='/bloodDonations' active={activeItem === '/bloodDonations'} onClick={this.handleItemClick}>
               Blood Donations
+            </Menu.Item>
+            <Menu.Item style={{color: 'red', fontWeight: '700'}} name='/signout' active={activeItem === '/signout'} onClick={this.handleLogout}>
+              <Icon name="sign-out" color="red"/>
+              Signout
+            </Menu.Item>
+          </Menu>
+        </Grid.Row>
+      )
+    } else if (userType == 'radiologist') {
+      return (
+        <Grid.Row style={{marginTop: '30px', maxWidth: '280px'}}>
+          <Menu fluid vertical>
+            <Menu.Item name='/home' active={activeItem === '/home'} onClick={this.handleItemClick}>
+              <Icon name="home" color="teal"/>
+              Home
+            </Menu.Item>
+            <Menu.Item name='/medicalRecord' active={activeItem === '/medicalReocrd'} onClick={this.handleItemClick}>
+              <Icon name="address card" color="black"/>
+              Medical Record Information
+            </Menu.Item>
+            <Menu.Item name='/radiologyScans' active={activeItem === '/radiologyScans'} onClick={this.handleItemClick}>
+              Radiology Scans
+            </Menu.Item>
+            <Menu.Item style={{color: 'red', fontWeight: '700'}} name='/signout' active={activeItem === '/signout'} onClick={this.handleLogout}>
+              <Icon name="sign-out" color="red"/>
+              Signout
+            </Menu.Item>
+          </Menu>
+        </Grid.Row>
+      ) 
+    } else if (userType == 'receptionist') {
+      return (
+        <Grid.Row style={{marginTop: '30px', maxWidth: '280px'}}>
+          <Menu fluid vertical>
+            <Menu.Item name='/home' active={activeItem === '/home'} onClick={this.handleItemClick}>
+              <Icon name="home" color="teal"/>
+              Home
+            </Menu.Item>
+            <Menu.Item style={{color: 'red', fontWeight: '700'}} name='/signout' active={activeItem === '/signout'} onClick={this.handleLogout}>
+              <Icon name="sign-out" color="red"/>
+              Signout
+            </Menu.Item>
+          </Menu>
+        </Grid.Row>
+      )
+    } else if (userType == 'laboratoryTechnician') {
+      return (
+        <Grid.Row style={{marginTop: '30px', maxWidth: '280px'}}>
+          <Menu fluid vertical>
+            <Menu.Item name='/home' active={activeItem === '/home'} onClick={this.handleItemClick}>
+              <Icon name="home" color="teal"/>
+              Home
+            </Menu.Item>
+            <Menu.Item name='/medicalRecord' active={activeItem === '/medicalReocrd'} onClick={this.handleItemClick}>
+              <Icon name="address card" color="black"/>
+              Medical Record Information
+            </Menu.Item>
+            <Menu.Item name='/labTests' active={activeItem === '/labTests'} onClick={this.handleItemClick}>
+              Lab Tests
             </Menu.Item>
             <Menu.Item style={{color: 'red', fontWeight: '700'}} name='/signout' active={activeItem === '/signout'} onClick={this.handleLogout}>
               <Icon name="sign-out" color="red"/>
