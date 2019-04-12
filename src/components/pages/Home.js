@@ -21,7 +21,7 @@ export default class Home extends Component {
         <AuthBoilerplate history={this.props.history}>
             <Container padded="true" style={{padding: '20px'}}>
               <Segment>
-                <h3>Medical Record</h3>
+                <h3>Home Page</h3>
                 <Message>Retrieve medical record by patient national ID number, or create a new medical record.</Message>
               </Segment>
               <Segment placeholder>
