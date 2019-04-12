@@ -62,7 +62,8 @@ class Login extends Component {
             }
             .logo {
               height: 156px !important;
-              width: 430px !important;
+              width: 156px !important;
+              margin-bottom: 30px;
             }
             body {
               background: url('/background8.jpg')no-repeat center center fixed;
@@ -77,7 +78,7 @@ class Login extends Component {
           <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
               <Header as='h1' color='teal' textAlign='center'>
-                <img className="logo" src='hospital-header.jpg' alt="King Abdullah bin Abdulaziz University Hospital"/>
+                <img className="logo" src='logo.png' alt="King Abdullah bin Abdulaziz University Hospital"/>
               </Header>
               <Form size='large' onSubmit={(e) => {e.preventDefault()}}>
                 <Segment stacked>
