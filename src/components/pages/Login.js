@@ -101,7 +101,7 @@ class Login extends Component {
                   />
                   <Form.Dropdown
                     value={this.state.type}
-                    placeholder='Select Friend' 
+                    placeholder='Select Type of User' 
                     fluid 
                     selection 
                     options={staffTypes} 
