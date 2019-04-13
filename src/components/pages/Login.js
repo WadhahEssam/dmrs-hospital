@@ -73,6 +73,9 @@ class Login extends Component {
               background-size: cover;
               background-color: #5d5d5d;
             }
+            .react-datepicker__input-container {
+              width: 100px;
+            }
           `}</style>
 
           <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>

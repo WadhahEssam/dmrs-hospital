@@ -22,7 +22,7 @@ class MedicalRecord extends Component {
     state = {
         id: 0,
         nationalID: '',
-        dateOfBirth: (new Date()).getTime(),
+        dateOfBirth: '',
         phoneNumber: '',
         gender: '',
         bloodType: '',
@@ -57,7 +57,9 @@ class MedicalRecord extends Component {
         const cardPlaceholderPath = '/card-placeholder.png'
         const padding = "20px"
         const cardDisabled = { background: '#ffe8e8', opacity: '0.3' };
-        
+        const date = new Date(parseInt(this.state.dateOfBirth));
+
+        console.log(this.state.dateOfBirth)
         return (
             <AuthBoilerplate>
                 <Container padded="true" style={{ padding: "20px" }}>
@@ -76,7 +78,7 @@ class MedicalRecord extends Component {
                                         </Table.Row>
                                         <Table.Row>
                                             <Table.Cell active>Date of Birth</Table.Cell>
-                                            <Table.Cell>{this.state.dateOfBirth}</Table.Cell>
+                                            <Table.Cell>{`${date.getDate().toString()} / ${parseInt(date.getUTCMonth().toString())+1} / ${date.getUTCFullYear()}`}</Table.Cell>
                                         </Table.Row>
                                         <Table.Row>
                                             <Table.Cell active>Phone</Table.Cell>
@@ -251,6 +253,7 @@ class MedicalRecord extends Component {
             isLoading: false,
         });
     }
+
 }
 
 export default withRouter(MedicalRecord);

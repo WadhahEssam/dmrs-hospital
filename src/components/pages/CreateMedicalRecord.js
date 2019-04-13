@@ -6,6 +6,8 @@ import 'react-day-picker/lib/style.css';
 import contract from '../../medicalRecordsSystemContract';
 import web3 from '../../web3';
 import { toast } from 'react-toastify';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default class Home extends Component {
   state = {
@@ -13,14 +15,23 @@ export default class Home extends Component {
     nationalID: '',
     phoneNumber: '',
     gender: '',
-    birthDate: '',
+    birthDate: Number(new Date()),
     isOpen: false,
     bloodType: '',
     emergencyContact: '',
     isError: false,
     errorMessage: '',
+    pickerDate: new Date(),
   }
 
+  handleChange = (date) => {
+    console.log(Number(date));
+    this.setState({
+      birthDate: Number(date),
+      pickerDate: date
+    });
+  }
+ 
   render() {
     const options = [
       { key: 'm', text: 'Male', value: 'male' },
@@ -30,6 +41,15 @@ export default class Home extends Component {
 
     return (
       <div>
+            <style>{`
+              .react-datepicker__input-container {
+                width: 100%;
+              }
+              .react-datepicker-wrapper {
+                width: 100%;
+              }
+          `}</style>
+
         <AuthBoilerplate history={this.props.history}>
             <Container style={{padding: '20px'}}>
               <Segment>
@@ -59,7 +79,17 @@ export default class Home extends Component {
                   </Form.Group>
                   <Form.Field>
                     <label>Date of Birth</label>
-                    <DayPickerInput style={{width: '100%'}} onDayChange={this.handleDayChange} />
+                    <div style={{ width: '100%'}}>
+                      <DatePicker
+                        style={{width: '100%'}}
+                        selected={this.state.pickerDate}
+                        onChange={this.handleChange}
+                        showYearDropdown
+                        dateFormatCalendar="MMMM"
+                        scrollableYearDropdown
+                        yearDropdownItemNumber={50}
+                      />
+                    </div>
                   </Form.Field>
                   <Form.Group widths='equal'>
                     <Form.Input 
@@ -174,7 +204,7 @@ export default class Home extends Component {
       console.log(this.state)
 
       const accounts = await web3.eth.getAccounts();
-      await contract.methods.createMedicalRecord(patient.nationalID, patient.name, patient.birthDate.getTime(), patient.phoneNumber, patient.gender, patient.bloodType, patient.emergencyContact)
+      await contract.methods.createMedicalRecord(patient.nationalID, patient.name, patient.birthDate, patient.phoneNumber, patient.gender, patient.bloodType, patient.emergencyContact)
       .send({ from: accounts[0], gas: '20000000' })
       .then(async () => {
         toast.success("Medical record created successfully", {
@@ -212,5 +242,16 @@ export default class Home extends Component {
 
   handleDayChange = (day) => {
     this.setState({ birthDate: day });
+  }
+
+  formatDate = (_date) => {
+    let date = new Date(_date*1000);
+    let hours = date.getHours();
+    let minutes = ("0"+date.getMinutes()).substr(-2);
+    let seconds = ("0"+date.getSeconds()).substr(-2);
+    let day = date.getDate();
+    let month = date.getUTCMonth();
+    let year = date.getUTCFullYear();
+    return day+"/"+month+"/"+year;
   }
 }

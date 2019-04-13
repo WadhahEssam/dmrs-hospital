@@ -42,7 +42,7 @@ class AuthBoilerplate extends Component {
 
           {/* Navbar Menu */}
           <Menu inverted pointing size='large' style={{margin: '10px'}}>
-            <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
+            <Menu.Item name='/home' active={activeItem === '/home'} onClick={this.handleItemClick} />
             <Menu.Menu position='right'>
               <Menu.Item>
                 King Abdullah Hospital
