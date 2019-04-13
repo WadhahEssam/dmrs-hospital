@@ -66,7 +66,7 @@ class Login extends Component {
               margin-bottom: 30px;
             }
             body {
-              background: url('/background8.jpg')no-repeat center center fixed;
+              background: url('/background9.jpg')no-repeat center center fixed;
               -webkit-background-size: cover;
               -moz-background-size: cover;
               -o-background-size: cover;
