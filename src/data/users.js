@@ -17,13 +17,13 @@ let users = [
     type: types['receptionist']
   },
   {
-    email: "dr.alobaili@gmail.com",
+    email: "abdulaziz@hotmail.com.com",
     username: "Abdulaziz Alobaili",
     password: "112233",
     type: types['laboratoryTechnician']
   },
   {
-    email: "khalid@gmail.com",
+    email: "khaled@hotmail.com",
     username: "Khalid Ahmad",
     password: "112233",
     type: types['radiologist']
